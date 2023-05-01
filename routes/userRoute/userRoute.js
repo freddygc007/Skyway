@@ -48,6 +48,7 @@ userRoute.post('/newpasswordadd',ResetPasswordMwre,newpasswordAdd)
 
 
 userRoute.get('/contact',isBlocked,loadContact)
+userRoute.get('/',isBlocked,loadHome)
 userRoute.get('/home',isBlocked,loadHome)
 userRoute.get('/shop',isBlocked,loadShop)
 userRoute.get('/viewProduct',isBlocked,loadProductDetails)

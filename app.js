@@ -32,10 +32,10 @@ app.use((req, res, next) => {
 
 
 const userRoute=require("./routes/userRoute/userRoute")
-app.use("/api/",userRoute)
+app.use("/",userRoute)
 
 const adminRoute = require("./routes/adminRoute/adminRoute");
-app.use("/api/admin",adminRoute);
+app.use("/admin/",adminRoute);
 
 app.listen(process.env.PORT,()=>{
     console.log(`server is running on port ${process.env.PORT}`);
