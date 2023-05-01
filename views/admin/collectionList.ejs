@@ -1,0 +1,190 @@
+<%- include ('./header.ejs') %>
+  <!-- partial -->
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Category Details </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Tables</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"></h4>
+              </p>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th> Collection </th>
+                    <th> Sub Collection </th>
+                    <th> Edit Collection </th>
+                    <th> Delete Collection </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <% if(data.length>0){
+                    for(let i=0;i<data.length;i++){ %>
+                      <%if(!data[i].delete){%>
+                        <tr class="parent" id="<%=data[i].slug%>" title="Click to expand/collapse"
+                          style="cursor: pointer; font-weight: 600;background-color: #f2f2f2;">
+                          <td>
+                            <%= data[i].name %>
+                          </td>
+                          <td></td>
+                          <td><a href="/api/admin/editcollection?id=<%= data[i]._id %>" class="btn btn-primary"
+                              onclick="event.preventDefault();showSweetAlertEdit(this)">Edit</a></td>
+                          <td>
+                                <form method="POST" action="/api/admin/deletemaincollection/<%= data[i]._id %>?_method=DELETE" id="delete-form-<%= data[i]._id %>">
+                                  <button class="btn btn-danger" type="submit" onclick="showDeletemainConfirmation(event,'<%= data[i]._id %>')">Delete</button> 
+                              </form>
+                            </td>
+                        </tr>
+                        <% if(data[i].children.length> 0){ %>
+                          <%for(let j=0;j<data[i].children.length;j++){ %>
+                            <%if(!data[i].children[j].delete){%>
+                              <tr class="child-<%=data[i].slug%>" style="display: table-row;">
+                                <td> </td>
+                                <td>
+                                  <%= data[i].children[j].name %>
+                                </td>
+                                <td><a href="/api/admin/editcollection?id=<%= data[i].children[j]._id %>"
+                                    class="btn btn-primary" onclick="event.preventDefault();showSweetAlertEdit(this)">Edit</a></td>
+                                <td>
+                                  <form method="POST" action="/api/admin/deletecollection/<%= data[i].children[j]._id %>?_method=DELETE" id="delete-form-<%= data[i].children[j]._id %>">
+                                    <button class="btn btn-danger" type="submit" onclick="showDeleteConfirmation(event,'<%= data[i].children[j]._id %>')">Delete</button> 
+                                </form>
+                                </td>
+
+                              </tr>
+                              <%}%>
+                                <%}%>
+                                  <%}%>
+                                    <%}%>
+                                      <%}%>
+                                        <%}%>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="/api/admin/category/addcategory"><button onclick="" class="btn btn-gradient-primary me-2">Add
+          Category</button></a>
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- partial:../../partials/_footer.html -->
+    <footer class="footer">
+      <div class="container-fluid d-flex justify-content-between">
+        <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © bootstrapdash.com
+          2021</span>
+        <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
+            href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template</a>
+          from Bootstrapdash.com</span>
+      </div>
+    </footer>
+    <!-- partial -->
+  </div>
+  <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <script>
+    function showSweetAlertEdit(element) {
+      const url = element.href;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to edit this collection!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, edit it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Do something if user confirms
+          window.location.href = url;
+        }
+      })
+    }
+
+  function showDeleteConfirmation(event,id) {
+      event.preventDefault(); // prevent the default form submission behavior
+  
+      swal({
+          title: "Are you sure?",
+          text: "You are about to delete this collection!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              // if user clicks "OK", submit the form to delete the product
+              document.getElementById(`delete-form-${id}`).submit();
+
+          }
+      });
+  }
+  function showDeletemainConfirmation(event,id) {
+      event.preventDefault(); // prevent the default form submission behavior
+  
+      swal({
+          title: "Are you sure?",
+          text: "You are about to delete this main collection!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              // if user clicks "OK", submit the form to delete the product
+              document.getElementById(`delete-form-${id}`).submit();
+          }
+      });
+  }
+  </script>
+  <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page -->
+  <!-- End custom js for this page -->
+
+
+
+  <!--  -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('tr.parent')
+        .css("cursor", "pointer")
+        .attr("title", "Click to expand/collapse")
+        .click(function () {
+          $(this).siblings('.child-' + this.id).toggle();
+        });
+      $('tr[@class^=child-]').hide().children('td');
+    });  
+  </script>
+  <!--  -->
+
+
+
+
+  </body>
+
+  </html>

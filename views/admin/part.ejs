@@ -1,0 +1,68 @@
+<tr>
+    <th> Sl No </th>
+    <th> Coupon Code </th>
+    <th> Discount </th>
+    <th> Expiry Date </th>
+    <th> Minimum Purchase </th>
+    <th> Created Date </th>
+    <th> Status </th>
+    <th> Action </th>
+  </tr>
+</thead>
+<tbody>
+ <% if(coupon>0){%>
+  <%for(let i=0;i<coupon.length;i++){%>
+      <tr>
+        <td class="py-1"><%= i+1 %></td>
+        <td> <%= coupon[i].code %></td>
+        <td> <%= coupon[i].discount %></td>
+        <td> <%= coupon[i].expirydate %></td>
+        <td> <%= coupon[i].minPurchase %></td>
+        <td> <%= coupon[i].createdDate %></td>
+        <td> <%= coupon[i].status %></td>
+        <td> delete </td>
+      </tr>
+    <%}%>
+  <%}%>
+
+
+
+  <div class="col-lg-6">
+    <div class="s_Product_carousel">
+                  <%if(product.productPictures.length>0){%>
+                      <%for(let i;i<product.productPictures.length;i++){%>
+                          <div class="single-prd-item">
+                              <img class="img-fluid" src="/uploads/<%= product.productPictures[i].img %>" alt="">
+                          </div>
+                      <%}%>
+                  <%}%>
+    </div>
+  </div>
+  <div class="col-lg-5 offset-lg-1">
+    <div class="s_product_text">
+      <h3><%=product.name%></h3>
+      <h2>₹ <%=product.price%></h2>
+      <ul class="list">
+        <li><a class="active" href="#"><span>Category</span> : Household</a></li>
+        <li><a href="#"><span>Availibility</span> <%if(product.stock>0){%>
+                          : In Stock
+                      <%}else{%>
+                          : Sold Out
+                      <%}%> </a></li>
+      </ul>
+      <p><%=product.description%></p>
+      <div class="product_count">
+        <label for="qty">Quantity:</label>
+        <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+         class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+         class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+      </div>
+      <div class="card_area d-flex align-items-center">
+        <a class="primary-btn" href="#">Add to Cart</a>
+        <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
+        <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+      </div>
+    </div>
+  </div>

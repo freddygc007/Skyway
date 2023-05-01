@@ -1,0 +1,69 @@
+<%- include ('./header.ejs') %>
+<section class="bg0 p-t-40 p-b-116">
+    <div class="container">
+        <div class="flex-w flex-tr">
+            <div class="size-210 bor10 p-lr-70 p-t-20 p-b-70 p-lr-15-lg w-full-md">
+
+                <form action="/editUser" method="post" class="bg-light rounded-5 p-4">
+
+                    <h4 class="mtext-105 cl2 txt-center p-b-30">
+                        Update Details
+                    </h4>
+
+                    <label>Name *</label>
+                    <input type="text" class="form-control" placeholder="name" name="name" value="<%=user.name%>"
+                        required>
+
+
+
+                    <label>Email</label>
+                    <input type="text" class="form-control" placeholder="enter email" name="email"
+                        value="<%=user.email%>" required>
+
+
+                    <label>Email</label>
+                    <input type="number" class="form-control" placeholder="enter phone number" name="number"
+                        value="<%=user.mobile%>" required>
+                    <br>
+                    <br>
+                    <div class="d-flex justify-content-center mx-4 mb-5 mb-lg-4">
+                        <input type="hidden" name="id" value="<%=user._id%>">
+                        <button type="submit" value="" class="btn btn-primary btn-lg">Save Edits</button>
+                        <a href="userProfile" class="btn btn-primary ml-2 btn-lg">Go Back</a>
+                    </div>
+                </form>
+</section>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <footer class="footer">
+              <div class="container-fluid d-flex justify-content-between">
+                <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright ©
+                  bootstrapdash.com 2021</span>
+                <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
+                    href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin
+                    template</a> from Bootstrapdash.com</span>
+              </div>
+            </footer>
+            <!-- partial -->
+          </div>
+          <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+      </div>
+      <!-- container-scroller -->
+      <!-- plugins:js -->
+      <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+      <!-- endinject -->
+      <!-- Plugin js for this page -->
+      <!-- End plugin js for this page -->
+      <!-- inject:js -->
+      <script src="/assets/js/off-canvas.js"></script>
+      <script src="/assets/js/hoverable-collapse.js"></script>
+      <script src="/assets/js/misc.js"></script>
+      <!-- endinject -->
+      <!-- Custom js for this page -->
+      <script src="/assets/js/file-upload.js"></script>
+      <!-- End custom js for this page -->
+</body>
+
+</html>

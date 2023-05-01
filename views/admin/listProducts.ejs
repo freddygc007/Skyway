@@ -1,0 +1,179 @@
+<%- include ('./header.ejs') %>
+
+
+  <!-- partial -->
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Product Details </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Tables</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Product Details</li>
+          </ol>
+        </nav>
+      </div>
+
+
+      <section class="content-main">
+        <div class="content-header">
+          <div>
+            <!-- <a href="#" class="btn btn-light rounded font-md">Export</a> -->
+            <!-- <a href="#" class="btn btn-light rounded  font-md">Import</a> -->
+
+            <a href="/api/admin/addproduct" class="btn btn-primary btn-sm rounded p-3 mb-3">Add new</a>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <!-- <header class="card-header">
+                      <div class="row gx-3">
+                          <!-- <div class="col-lg-4 col-md-6 me-auto"> -->
+          <!-- <input type="text" placeholder="Search..." class="form-control"> -->
+          <!-- </div> -->
+          <!-- <div class="col-lg-2 col-6 col-md-3">
+                              <select class="form-select">
+                                <option  value="">Select Categories</option>
+                                <%for(let i=0;i<categories.length;i++){%>
+                                  <% if(categories[i].parentId){%>
+                                    <option  value="<%=categories[i]._id %>"><%= categories[i].name %></option>
+                                  <%}%>
+                                <%}%>
+                              </select>
+                          </div> -->
+          <!-- <div class="col-lg-2 col-6 col-md-3">
+                              <select class="form-select">
+                                  <option>Latest added</option>
+                                  <option>Cheap first</option>
+                                  <option>Most viewed</option>
+                              </select>
+                          </div> -->
+          <!-- </div>
+                  </header> card-header end// -->
+
+          <div class="card-body">
+
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+              <% data.forEach(function(data){ %>
+                <div class="col" style="border: lightgrey solid; border-radius: 15px; margin: 1rem;">
+                  <div class="card card-product-grid">
+
+                    <% if(data.productPictures.length> 0){ %>
+                      <img style="max-height:17rem; max-width: 14rem;" src="/uploads/<%= data.productPictures[0].img %>"
+                        alt="<%= data.name %>">
+                      <% } %>
+                        <div class="info-wrap">
+                          <h5 class="title text-truncate">
+                            <%= data.name %>
+                          </h5>
+                          <div class="price mb-2">
+                            <%= data.price %>
+                          </div> <!-- price.// -->
+                          <h5 class="title text-truncate">
+                            <%= categories.name %>
+                          </h5>
+                          <h5 class="title text-truncate">
+                            <%= categories.name %>
+                          </h5>
+
+                          <a href="/api/admin/editproduct?id=<%= data._id %>"
+                            class="btn btn-sm font-sm rounded btn-brand">
+                            <i class="material-icons md-edit"></i> Edit
+                          </a>
+                          <form style="display: inline-block;margin-bottom: .5rem;" method="POST" action="/api/admin/deleteproduct/<%= data._id %>?_method=DELETE" id="delete-form">
+                            <button class="btn-sm btn-danger" type="submit" onclick="showDeleteConfirmation(event)">Delete</button> 
+                        </form>
+                        
+                          <!-- <a href="/api/admin/deleteproduct?id=<%= data._id %>"
+                            class="btn btn-sm font-sm btn-light rounded" onclick="showSweetAlert(event)">
+                            <i class="material-icons md-delete_forever"></i> Delete
+                          </a> -->
+                        </div>
+
+                  </div> <!-- card-product  end// -->
+                </div> <!-- col.// -->
+                <% }) %>
+
+            </div> <!-- row.// -->
+
+          </div>
+        </div> <!-- card end// -->
+
+        <!-- <div class="pagination-area mt-30 mb-50">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+              <li class="page-item active"><a class="page-link" href="#">01</a></li>
+              <li class="page-item"><a class="page-link" href="#">02</a></li>
+              <li class="page-item"><a class="page-link" href="#">03</a></li>
+              <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+              <li class="page-item"><a class="page-link" href="#">16</a></li>
+              <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+              </li>
+            </ul>
+          </nav>
+        </div> -->
+      </section>
+
+
+
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- partial:../../partials/_footer.html -->
+    <footer class="footer">
+      <div class="container-fluid d-flex justify-content-between">
+        <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © bootstrapdash.com
+          2021</span>
+        <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
+            href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template</a>
+          from Bootstrapdash.com</span>
+      </div>
+    </footer>
+    <!-- partial -->
+  </div>
+  <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+  </div>
+  <!-- Sweet Alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+  <script>
+    function showDeleteConfirmation(event) {
+        event.preventDefault(); // prevent the default form submission behavior
+    
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this product!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                // if user clicks "OK", submit the form to delete the product
+                document.querySelector('#delete-form').submit();
+            }
+        });
+    }
+    </script>
+    
+
+
+
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page -->
+  <!-- End custom js for this page -->
+  </body>
+
+  </html>

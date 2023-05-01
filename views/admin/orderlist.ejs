@@ -1,0 +1,269 @@
+<%- include ('./header.ejs') %>
+
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h3 class="page-title"> User Details </h3>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Details</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"></h4>
+                            </p>
+                            <input type="date" name="startdate" id="startdate" onchange="cli(),updateEndDate()">
+                            <input type="date" name="enddate" id="enddate" onchange="cli()">
+                            <button type="button" id="pdf">Download</button>
+                            <table class="table table-striped" id="ordersTable">
+                                <thead>
+                                    <tr>
+                                        <th> Sl No. </th>
+                                        <th> Order id </th>
+                                        <th> User Name </th>
+                                        <th> Price </th>
+                                        <th> Payment Method </th>
+                                        <th> Status </th>
+                                        <th> Date </th>
+                                        <th> ACTION </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+
+                                    <% if(orders.length> 0 ){
+                                        for(let i=0;i<orders.length;i++){ %>
+                                            <tr>
+                                                <td>
+                                                    <%= i+1 %>
+                                                </td>
+                                                <td>
+                                                    <%= orders[i]._id %>
+                                                </td>
+                                                <td>
+                                                    <%=orders[i].userId.name%>
+                                                </td>
+                                                <td>
+                                                    <%= orders[i].payment.amount%>
+                                                </td>
+                                                <td>
+                                                    <%= orders[i].payment.method%>
+
+                                                </td>
+                                                <td>
+                                                    <%= orders[i].status%>
+                                                </td>
+                                                <td>
+                                                    <%= orders[i].createdAt.toISOString().slice(0,10) %>
+                                                </td>
+                                                <td>
+                                                    <a class="text-light btn btn-primary"
+                                                        href="/api/admin/loadOrderDetails?id=<%=orders[i]._id%>">view
+                                                        Details</a><br>
+                                                    <br>
+                                                    <form action="/api/admin/updateStatus?_method=PUT" method="post">
+                                                        <select name="status" class="browser-default custom-select">
+                                                            <option>
+                                                                <%=orders[i].status%>
+                                                            </option>
+                                                            <option>cancelled</option>
+                                                            <option>Delivered</option>
+                                                            <option>Shipped</option>
+                                                            <option>packed</option>
+                                                        </select>
+                                                        <input type="hidden" name="orderId" value="<%=orders[i]._id%>">
+                                                        <% if (orders[i].status!="returned"
+                                                            &&orders[i].status!="cancelled" ){%>
+                                                            <button class="btn-success text-black"
+                                                                style="padding: .25rem;" type="submit"
+                                                                onclick="showSweetAlert(event)">Update</button>
+                                                            <%}else{%>
+                                                                <%}%>
+                                                    </form>
+                                                </td>
+
+                                            </tr>
+                                            <% } } else{ %>
+                                                <tr>
+                                                    <td colspan="5">order not found </td>
+                                                </tr>
+                                                <% } %>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+            <div class="container-fluid d-flex justify-content-between">
+                <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright ©
+                    bootstrapdash.com 2021</span>
+                <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
+                        href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin
+                        template</a> from Bootstrapdash.com</span>
+            </div>
+        </footer>
+        <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+    </div>
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function showSweetAlert(event) {
+            event.preventDefault(); // Prevent the form from being submitted
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to update this?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form
+                    event.target.form.submit();
+                }
+            });
+        }
+    </script>
+    <script>
+        function updateEndDate() {
+          // Get the selected start date
+          var startDate = new Date(document.getElementById("startdate").value);
+      
+          // Disable dates before the start date on the end date input field
+          var endDate = document.getElementById("enddate");
+          endDate.min = startDate.toISOString().slice(0,10);
+        }
+      
+        // Add event listeners to both input fields
+        document.getElementById("startdate").addEventListener("change", updateEndDate);
+        document.getElementById("enddate").addEventListener("change", updateEndDate);
+      </script>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="/assets/js/off-canvas.js"></script>
+    <script src="/assets/js/hoverable-collapse.js"></script>
+    <script src="/assets/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <!-- End custom js for this page -->
+    <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+
+
+    <script>
+        // Download as PDF
+        // console.log(jsPDF);
+        document.getElementById('pdf').addEventListener('click', function () {
+            var doc = new jsPDF();
+            doc.autoTable({
+                html: '#ordersTable',
+                columns: [
+                    { header: 'Order ID', dataKey: 'Order ID' },
+                    { header: 'Product', dataKey: 'Product' },
+                    { header: 'Price', dataKey: 'Price' },
+                    { header: 'Method', dataKey: 'Method' },
+                    { header: 'Method', dataKey: 'Method' },
+                    { header: 'Method', dataKey: 'Method' },
+                    { header: 'Method', dataKey: 'Method' },
+                ]
+            });
+            doc.save('sales.pdf');
+        });
+
+
+        // Download as Excel
+        // document.getElementById('downloadExcelBtn').addEventListener('click', function() {
+        // Get the table element
+        //   var table = document.getElementById('ordersTable');
+
+        // Convert the table data to a worksheet object
+        //   var worksheet = XLSX.utils.table_to_sheet(table);
+
+        // Create a new workbook and add the worksheet
+        //   var workbook = XLSX.utils.book_new();
+        //   XLSX.utils.book_append_sheet(workbook, worksheet, 'Sales');
+
+        // Save the Excel file
+        //   XLSX.writeFile(workbook, 'sales.xlsx');
+        // });
+
+
+        function cli() {
+            start = document.getElementById("startdate").value
+            end = document.getElementById("enddate").value
+            console.log(start, end);
+            data = { start: start, end: end }
+            axios.post('/api/admin/updateOrder', data)
+                .then(res => {
+                    if (res.data) {
+                        console.log(res.data);
+                        console.log(res.data.orderDetail);
+                        let orders = res.data.orderDetail
+                        let ordersTableHTML = '';
+
+                        if (orders.length > 0) {
+                            orders.forEach((order, i) => {
+                                ordersTableHTML += `<tr> <th>${i + 1}</th> <td>${order._id}</td> <td>${order.userId.name}</td> <td>${order.payment.amount}</td> <td>${order.payment.method}</td> <td>${order.status}</td> <td>${new Date(order.createdAt).toLocaleDateString()}</td> 
+                                                <td>
+                                                    <a class="text-light btn btn-primary"
+                                                        href="/api/admin/loadOrderDetails?id=${order._id}">view
+                                                        Details</a><br>
+                                                    <br>
+                                                    <form action="/api/admin/updateStatus?_method=PUT" method="post">
+                                                        <select name="status" class="browser-default custom-select">
+                                                            <option>
+                                                                ${order.status}
+                                                            </option>
+                                                            <option>cancelled</option>
+                                                            <option>Delivered</option>
+                                                            <option>Shipped</option>
+                                                            <option>packed</option>
+                                                        </select>
+                                                        <input type="hidden" name="orderId" value="${order._id}">
+                                                        ${order.status !== 'returned' ? '<button "btn-success text-black" style="padding: .25rem;" type="submit" onclick="showSweetAlert(event)">update</button>' : ''}
+                                                    </form>
+                                                </td>`
+                            });
+                        } else {
+                            ordersTableHTML = '<tr><td colspan="5">Products Not Found</td></tr>';
+                        }
+                        document.getElementById("tbody").innerHTML = ordersTableHTML;
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+
+
+
+
+    </script>
+
+
+    </body>
+
+    </html>

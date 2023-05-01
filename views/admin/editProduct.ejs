@@ -1,0 +1,144 @@
+<%- include ('./header.ejs') %>
+        
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Edit Product </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Form elements</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="row">
+              <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Product Details</h4>
+                    <p class="card-description"> Please enter the details </p>
+                    <form enctype="multipart/form-data" class="forms-sample" method="post" action="/api/admin/editproduct?_method=PUT">
+                      <input type="hidden" name="id" value="<%=product._id %>">
+                      <div class="form-group">
+                        <label for="exampleInputName1">Product Name</label>
+                        <input type="text" name="name" class="form-control" id="exampleInputName1" placeholder="Name" value="<%= product.name %>">
+                      </div>
+                      <div >
+                        <select class="form-control" name="category">
+                          <% if (categories.length>0) { %>
+                            <% for (let i = 0; i < categories.length; i++) { %>
+                              <% if (product.category.toString() === categories[i]._id.toString() && categories[i].parentId) { %>
+                              <option value="<%= categories[i]._id%>"><%= categories[i].name %></option>
+                              <% } %>
+                            <% } %>
+                        <% } %>
+                          <% if (categories.length>0) { %>
+                            <% for (let i = 0; i < categories.length; i++) { %>
+                              <% if (product.category.toString() !== categories[i]._id.toString() && categories[i].parentId) { %>
+                              <option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+                              <% } %>
+                            <% } %>
+                        <% } %>
+                      </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail3">Price</label>
+                        <input type="number" name="price" class="form-control" id="exampleInputEmail3" placeholder="Price" value="<%= product.price %>">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword4">Stock</label>
+                        <input type="text" name="quantity" class="form-control" id="exampleInputPassword4" placeholder="Quantity" value="<%= product.quantity %>">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleTextarea1">Description</label>
+                        <textarea name="description" class="form-control" id="exampleTextarea1" rows="4"><%= product.description %></textarea>
+                      </div>
+                      
+                
+                      <div class="form-group">
+                        <input class="form-control" type="file" name="productPicture" multiple accept="image/jpeg, image/png, image/webp">
+                      </div>
+                      <div class="d-flex mb-2 mt-2">
+                        <% for(let key of product.productPictures){ %>
+                            <div id='<%=key.img %>' style="padding-right: 4px; ">  
+                            <div class="d-flex align-items-center justify-content-center position-relative " style="border: 1px solid rgb(236, 236, 236);border-radius: 8px;height: 85px;width: 78px;">  
+                              <button style="color: aliceblue;" type="button" onclick="cut('<%=key.img%>')" class="close position-absolute z-3 top-0 end-0 bg-transparent shadow-none " aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>                            
+                              <img src="/uploads/<%=key.img %>" class="img-thumbnail rounded" width="60px" height="60px" style="border: 4px;" alt="error">
+                            </div></div>
+                            <%}%>    
+                        </div>
+                      <!-- <div class="form-group">
+                        <% product.productPictures.forEach(function(productPicture) { %>
+                          <img src="/uploads/<%= productPicture.img %>" alt="Product Image" style="width: 100px; height: 100px;">
+                          <% }) %>                      </div> -->
+                      <div class="form-group">
+                        <label for="exampleInputCity1">Offers</label>
+                        <input type="text" name="offers" class="form-control" id="exampleInputCity1" placeholder="Location">
+                      </div>
+                      <input type="hidden" value="<%=product._id%>" id="pId"/>
+                      <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                      <a href="/api/admin/products" class="btn btn-light">Cancel</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer">
+            <div class="container-fluid d-flex justify-content-between">
+              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © bootstrapdash.com 2021</span>
+              <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template</a> from Bootstrapdash.com</span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+
+    <!-- Image Del -->
+    <script>
+
+      function cut(id) {
+        pId = document.getElementById('pId').value 
+        document.getElementById(id).innerHTML='' 
+        console.log('id = '+id); 
+        console.log(pId);
+        const data = {img:id , pId:pId}
+        console.log(id,pId);
+        axios.post('/api/admin/updateImage', data)
+        .then(res => {
+          if(res.data){
+            console.log(res.data);
+    
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+      console.log('This was logged in the callback: ' + result);}
+    
+    </script>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../../assets/js/off-canvas.js"></script>
+    <script src="../../assets/js/hoverable-collapse.js"></script>
+    <script src="../../assets/js/misc.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="../../assets/js/file-upload.js"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

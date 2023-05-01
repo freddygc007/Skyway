@@ -1,0 +1,292 @@
+<%- include ('./header.ejs') %>
+
+  <!-- End Header Area -->
+
+  <!-- Start Banner Area -->
+  <section class="banner-area organic-breadcrumb">
+    <div class="container">
+      <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+        <div class="col-first">
+          <h1>Checkout</h1>
+          <nav class="d-flex align-items-center">
+            <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+            <a href="single-product.html">Checkout</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Banner Area -->
+
+  <div class="container" style="padding: 3rem;">
+    <div class="row">
+      <div class="container-fluid">
+
+        <div class="container">
+          <!-- Title -->
+          <div class="d-flex justify-content-between align-items-center py-3">
+            <h2 class="h5 mb-0 text-light"><a href="#" class="text-muted"></a> Order #<%=orders._id%>
+            </h2>
+          </div>
+    
+          <!-- Main content -->
+          <div class="row">
+            <div class="col-lg-8">
+              <!-- Details -->
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="mb-3 d-flex justify-content-between">
+                    <div>
+                      <span class="me-3">
+                        <%=orders.createdAt%>
+                      </span>
+                      <!-- <span class="me-3">#16123222</span>
+                      <span class="me-3">Visa -1234</span> -->
+                      <span class="badge rounded-pill bg-info">
+                        <%=orders.status%>
+                      </span>
+                    </div>
+                    <div class="d-flex">
+                      <div class="dropdown">
+                        <button class="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
+                          <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="bi bi-printer"></i> Print</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table table-borderless">
+                    <% for(let key of orders.products.item) { %>
+    
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="d-flex mb-2">
+                              <div class="flex-shrink-0">
+                                <img src="uploads/<%=key.productId.productPictures[0].img%>" alt="" width="70" class="img-fluid">
+                              </div>
+                              <div class="flex-lg-grow-1 ms-3">
+                                <h6 class="small mb-0"><a href="#" class="text-reset">
+                                    <%=key.productId.name%>
+                                  </a></h6>
+                                <span class="small">Color: Black</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td>quantity:<%=key.qty%>
+                          </td>
+                          <td class="text-end">amount:<%=key.productId.price%>
+                          </td>
+                        </tr>
+                        <% } %>
+                          <!-- <tr>
+                        <td>
+                          <div class="d-flex mb-2">
+                            <div class="flex-shrink-0">
+                              <img src="https://www.bootdey.com/image/280x280/FF69B4/000000" alt="" width="35" class="img-fluid">
+                            </div>
+                            <div class="flex-lg-grow-1 ms-3">
+                              <h6 class="small mb-0"><a href="#" class="text-reset">Smartwatch IP68 Waterproof GPS and Bluetooth Support</a></h6>
+                              <span class="small">Color: White</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>1</td>
+                        <td class="text-end">$79.99</td>
+                      </tr> -->
+                      </tbody>
+                      <tfoot>
+                        <tr class="fw-bold">
+                          <td colspan="2">TOTAL</td>
+                          <td class="text-end">
+                            <%=orders.payment.amount%>
+                          </td>
+                        </tr>
+                      </tfoot>
+                  </table>
+                </div>
+              </div>
+              <!-- Payment -->
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <h3 class="h6">Payment Method</h3>
+                      <p>
+                        <%=orders.payment.method%> <br>
+                          Total:<%=orders.payment.amount%> <span class="badge bg-success rounded-pill text">PAID</span>
+                      </p>
+                      <% if(orders.paymentDetails&&orders.payment.method!="COD" ){%>
+                        <h3 class="h6">Payment Details</h3>
+                        <p>Receipt no:<%= orders.paymentDetails.reciept%>
+                        </p>
+                        <p>Payment Status:<%= orders.paymentDetails.status%>
+                        </p>
+    
+    
+    
+                        <%}%>
+                    </div>
+                    <div class="col-lg-6">
+                      <h3 class="h6">Billing address</h3>
+                      <address>
+                        <strong>
+                          <%=orders.address.firstname%>
+                            <%=orders.address.lastname%>
+                        </strong><br>
+                        <%=orders.address.address%><br>
+                          Pin:<%=orders.address.zip%> <br>
+                            Phone:<%=orders.address.mobile%>
+                              <!-- <abbr title="Phone">P:</abbr>  -->
+                      </address>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <!-- Customer Notes -->
+              <div class="card mb-4">
+                <div class="card-body">
+                  <p>Thanks for your Order</p>
+                  <p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum.
+                    Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>
+                </div>
+              </div>
+              <div class="card mb-4">
+                <!-- Shipping information -->
+                <div class="card-body">
+                  <h3 class="h6">Shipping Information</h3>
+                  <strong>FedEx</strong>
+                  <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i
+                      class="bi bi-box-arrow-up-right"></i> </span>
+                  <hr>
+                  <h3 class="h6">Address</h3>
+                  <address>
+                    <strong>
+                      <%=orders.address.firstname%>
+                        <%=orders.address.lastname%>%>
+                    </strong><br>
+                    <%=orders.address.address%><br>
+                      Pin:<%=orders.address.zip%> <br>
+                        Phone:<%=orders.address.mobile%>
+                  </address>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!--================End Checkout Area =================-->
+
+  <!-- start footer Area -->
+  <footer class="footer-area section_gap">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3  col-md-6 col-sm-6">
+          <div class="single-footer-widget">
+            <h6>About Us</h6>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+              ut labore dolore
+              magna aliqua.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4  col-md-6 col-sm-6">
+          <div class="single-footer-widget">
+            <h6>Newsletter</h6>
+            <p>Stay update with our latest</p>
+            <div class="" id="mc_embed_signup">
+
+              <form target="_blank" novalidate="true"
+                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                method="get" class="form-inline">
+
+                <div class="d-flex flex-row">
+
+                  <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''"
+                    onblur="this.placeholder = 'Enter Email '" required="" type="email">
+
+
+                  <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
+                      aria-hidden="true"></i></button>
+                  <div style="position: absolute; left: -5000px;">
+                    <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                  </div>
+
+                  <!-- <div class="col-lg-4 col-md-4">
+													<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+												</div>  -->
+                </div>
+                <div class="info"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3  col-md-6 col-sm-6">
+          <div class="single-footer-widget mail-chimp">
+            <h6 class="mb-20">Instragram Feed</h6>
+            <ul class="instafeed d-flex flex-wrap">
+              <li><img src="/FrontEnd/img/i1.jpg" alt=""></li>
+              <li><img src="/FrontEnd/img/i2.jpg" alt=""></li>
+              <li><img src="/FrontEnd/img/i3.jpg" alt=""></li>
+              <li><img src="/FrontEnd/img/i4.jpg" alt=""></li>
+              <li><img src="/FrontEnd/img/i5.jpg" alt=""></li>
+              <li><img src="/FrontEnd/img/i6.jpg" alt=""></li>
+              <li><img src="/FrontEnd/img/i7.jpg" alt=""></li>
+              <li><img src="/FrontEnd/img/i8.jpg" alt=""></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="single-footer-widget">
+            <h6>Follow Us</h6>
+            <p>Let us be social</p>
+            <div class="footer-social d-flex align-items-center">
+              <a href="#"><i class="fa fa-facebook"></i></a>
+              <a href="#"><i class="fa fa-twitter"></i></a>
+              <a href="#"><i class="fa fa-dribbble"></i></a>
+              <a href="#"><i class="fa fa-behance"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+        <p class="footer-text m-0">
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          Copyright &copy;
+          <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i
+            class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        </p>
+      </div>
+    </div>
+  </footer>
+  <!-- End footer Area -->
+
+
+  <script src="/FrontEnd/js/vendor/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+  <script src="/FrontEnd/js/vendor/bootstrap.min.js"></script>
+  <script src="/FrontEnd/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/FrontEnd/js/jquery.nice-select.min.js"></script>
+  <script src="/FrontEnd/js/jquery.sticky.js"></script>
+  <script src="/FrontEnd/js/nouislider.min.js"></script>
+  <script src="/FrontEnd/js/jquery.magnific-popup.min.js"></script>
+  <script src="/FrontEnd/js/owl.carousel.min.js"></script>
+  <!--gmaps Js-->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+  <script src="/FrontEnd/js/gmaps.min.js"></script>
+  <script src="/FrontEnd/js/main.js"></script>
+  </body>
+
+  </html>

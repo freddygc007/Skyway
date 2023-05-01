@@ -1,0 +1,433 @@
+<%- include ('./header.ejs') %>
+
+    <!-- End Header Area -->
+
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Checkout</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="single-product.html">Checkout</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+
+    <!--================Checkout Area =================-->
+    <section class="checkout_area section_gap">
+        <div class="container">
+            <div class="returning_customer">
+                <div>
+                    <form method="post" action="/api/addAddressch" class="colorlib-form">
+                        <div class="row">
+
+                            <label>Name *</label>
+                            <input type="text" class="form-control" name="firstname" placeholder="First name" required>
+
+                            <label>Last Name *</label>
+                            <input type="text" class="form-control" name="lastname" placeholder="Last name" required>
+
+
+
+                            <label>Country *</label>
+                            <input type="text" class="form-control" name="country" placeholder="Country" required>
+
+                            <label>address *</label>
+                            <input type="text" class="form-control" placeholder="Address" name="address" required>
+
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Town / City *</label>
+                                    <input type="text" class="form-control" name="city" placeholder="City" required>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>State / County *</label>
+                                    <input type="text" class="form-control" name="state" placeholder="State" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Postcode / ZIP *</label>
+                                    <input type="text" class="form-control" name="zip" placeholder="Postcode/ZIP"
+                                        required>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Phone *</label>
+                                    <input type="tel" class="form-control" name="mno" placeholder="Phone" required>
+                                </div>
+                            </div>
+
+                            <br>
+                            <!-- <button type="submit" class="btn btn-success rounded-2 shadow  ">
+                           Save Address
+                         </button> -->
+
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add Address</button>
+                </div>
+                </form>
+            </div>
+            <div class="check_title">
+                <h2>CHOOSE ADDRESS</h2>
+            </div>
+            <div>
+                <form action="/api/placeorder" method="post" onsubmit="return status()">
+
+                    <div class="row p-4 rounded container-fluid d-flex">
+                        <% for(i=0;i<address.length;i++){%>
+                            <div class="address-selection-card col-sm-6 col-md-4">
+                                <input style="margin-left: 10px;" type="radio" name="address" id="addressid"
+                                    value="<%=address[i]._id%>" <% if(i==0){%>checked<%}%>>
+                                    <label>
+                                        <h5>
+                                            <%=i+1%>
+                                        </h5>
+                                        <%=address[i].firstname%>
+                                            <%=address[i].lastname%>
+                                                <br>
+                                                <%=address[i].address%>
+                                                    <br>
+                                                    <%=address[i].state%>
+                                                        <br>
+                                                        <%=address[i].city%>
+                                                            <br>
+                                                            <%=address[i].country%>
+                                                                <br>
+                                                                <%=address[i].zip%>
+                                    </label><br>
+
+                                    <a href="/api/editaddress?id=<%=address[i]._id%>"><button
+                                            style="margin-top: 10px; margin-left: 5%;" type="button"
+                                            class="btn-default">edit</button></a>
+                                    <a href="/api/delete?id=<%=address[i]._id%>"><button
+                                            style="margin-top: 10px; margin-left: 5%;" type="button"
+                                            class="btn-default">delete</button></a>
+                            </div>
+                            <%}%>
+                    </div>
+
+            </div>
+        </div>
+
+        <div class="billing_details" style="margin-top: 2rem;">
+
+            <div class="row">
+                <div class="col-lg-2">
+
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="input-group" style="margin-bottom: 20px;">
+                        <input name="coupon" id="coupon">
+
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" onclick="apply()">Apply</button>&nbsp; &nbsp;
+                            <a data-toggle="modal" class="btn btn-primary" type="button"
+                                href="#exampleModalScrollable1">Show Coupons</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="order_box">
+                        <h2>Your Order</h2>
+                        <ul class="list">
+                            <%for(let i=0;i<checkoutdetails.item.length;i++){%>
+                                <li><a href="#">
+                                        <%= checkoutdetails.item[i].productId.name.split(' ').slice(0, 2).join(' ') %><span class="middle">x <%=checkoutdetails.item[i].qty%></span> <span class="last">₹<%=checkoutdetails.item[i].productId.price*checkoutdetails.item[i].qty%></span></a></li>
+                                <%}%>
+                            </ul>
+                            <h2></h2>
+                            <ul class="list list_2">
+                                <li><a href="#">Subtotal <span>₹<%=checkoutdetails.totalPrice%></span></a></li>
+                                <input id="subTotal" type="hidden" value="<%=checkoutdetails.totalPrice%>" name="subcost">
+                                <li><a href="#">Discount <span id="dis"></span></a></li>
+                                <li><a href="#">Reduction Amount <span id="amt"></span></a></li>
+                                <li><a href="#">Total <span id="gT">₹<%=checkoutdetails.totalPrice%></span></a></li>
+                                <input id="payable" type="hidden" name="cost" value="<%=checkoutdetails.totalPrice%>">
+                                <input id="last" type="hidden" value="<%=checkoutdetails.totalPrice%>" name="amount">
+
+                            </ul>
+                            <div class="payment_item">
+                                <div class="">
+                                    <input type="checkbox" id="wallet" name="payment" value="wallet" onchange="val('<%=user.wallet%>')">
+                                    <label for="wallet">Wallet</label>
+                                    <input type="hidden" id="walamount" name="walamount" value="<%=user.wallet%>">
+                                    <div class="check"></div>
+                                </div>
+                            </div>
+                            
+                                <div class="radion_btn">
+                                    <input type="radio" id="COD" name="payment" value="COD">
+                                    <label for="COD">COD</label>
+                                    <div class="check"></div>
+                                </div>
+                            
+
+                                <div class="radion_btn">
+                                    <input type="radio" id="Online" name="payment" value="Online">
+                                    <label for="Online">ONLINE PAYMENT </label>
+                                    <img src="/FrontEnd/img/product/card.jpg" alt="">
+                                    <div class="check"></div>
+                                </div>
+                            <button class="primary-btn" style="border: none; width: 100%;">Place Order</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                       
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </section>
+    <!--================End Checkout Area =================-->
+
+    <!-- start footer Area -->
+    <footer class="footer-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>About Us</h6>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                            ut labore dolore
+                            magna aliqua.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Newsletter</h6>
+                        <p>Stay update with our latest</p>
+                        <div class="" id="mc_embed_signup">
+
+                            <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                method="get" class="form-inline">
+
+                                <div class="d-flex flex-row">
+
+                                    <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = ' Enter Email '" required="" type="email">
+
+
+                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
+                                            aria-hidden="true"></i></button>
+                                    <div style="position: absolute; left: -5000px;">
+                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
+                                            type="text">
+                                    </div>
+
+                                    <!-- <div class="col-lg-4 col-md-4">
+													<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+												</div>  -->
+                                </div>
+                                <div class="info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget mail-chimp">
+                        <h6 class="mb-20">Instragram Feed</h6>
+                        <ul class="instafeed d-flex flex-wrap">
+                            <li><img src="/FrontEnd/img/i1.jpg" alt=""></li>
+                            <li><img src="/FrontEnd/img/i2.jpg" alt=""></li>
+                            <li><img src="/FrontEnd/img/i3.jpg" alt=""></li>
+                            <li><img src="/FrontEnd/img/i4.jpg" alt=""></li>
+                            <li><img src="/FrontEnd/img/i5.jpg" alt=""></li>
+                            <li><img src="/FrontEnd/img/i6.jpg" alt=""></li>
+                            <li><img src="/FrontEnd/img/i7.jpg" alt=""></li>
+                            <li><img src="/FrontEnd/img/i8.jpg" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Follow Us</h6>
+                        <p>Let us be social</p>
+                        <div class="footer-social d-flex align-items-center">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                            <a href="#"><i class="fa fa-behance"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+                <p class="footer-text m-0"><!-- Link back to Colorlib can' t be removed. Template is licensed under CC
+                                            BY 3.0. -->
+                                            Copyright &copy;
+                                            <script>document.write(new Date().getFullYear());</script> All rights
+                                            reserved | This template is made with <i class="fa fa-heart-o"
+                                                aria-hidden="true"></i> by <a href="https://colorlib.com"
+                                                target="_blank">Colorlib</a>
+                                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                            </p>
+                    </div>
+                </div>
+                </footer>
+                <!-- End footer Area -->
+                <!--model start-->
+                <div class="modal fade" id="exampleModalScrollable1" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalScrollableTitle">Coupons</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="total" value="<%=coupon.length %>">
+                                <% for(i=0;i<coupon.length;i++){ %>
+                                    <% if(coupon[i].isActive){%>
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <span style="color: crimson;font-size:x-large;"><strong
+                                                        id="<%=coupon[i]._id%>">
+                                                        <%= coupon[i].code %>
+                                                    </strong></span>
+                                                <h6>
+                                                    <%=coupon[i].discount %> %
+                                                </h6>
+                                                <h6>Max Discount-<%= coupon[i].maxDiscount%>
+                                                </h6>
+                                                <h6>Min Purchase-<%= coupon[i].minPurchase%>
+                                                </h6>
+                                                <h6 id="<%=i%>exp">expires in <%=coupon[i].expirydate%>
+                                                </h6>
+
+                                                <!-- <label for="c_fname" class="text-black">Coupon Name <span class="text-danger">*</span></label> -->
+                                                <!-- <input type="text" class="form-control"  name="couponname"> -->
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <hr>
+                                        <%}%>
+                                            <% } %>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <!-- <button type="submit" class="btn btn-primary">Save changes</button> -->
+                                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--model end-->
+                <script>
+                    function status() {
+                        if (document.getElementById("COD").checked) {
+                            console.log('cod');
+                            return true;
+                        } else if (document.getElementById("Online").checked) {
+                            console.log('Online');
+                            return true;
+                        } else {
+                            alert("Please Choose An address To Continue!!")
+                            return false;
+                        }
+                    }
+                    function val(p) {
+                        waldata = parseInt(p)
+                        const last = document.getElementById("last").value;
+                        wallet = parseInt(last);
+                        if (document.getElementById('wallet').checked) {
+
+                            if (waldata >= wallet) {
+                                console.log(wallet, waldata);
+                                document.getElementById('COD').setAttribute("disabled", "")
+                                document.getElementById('COD').checked = false;
+                                //  document.getElementById("payable").value=0;
+
+                                document.getElementById('Online').setAttribute("disabled", "")
+                                document.getElementById('Online').checked = false;
+
+
+                            } else {
+                                balance = wallet - waldata;
+                                document.getElementById("COD").unchecked = true;
+                                document.getElementById("Online").checked = true;
+                                document.getElementById('COD').setAttribute("disabled", "")
+                                document.getElementById("payable").value = balance;
+                                console.log(document.getElementById("payable").value);
+                            }
+
+
+                        } else {
+                            document.getElementById('COD').removeAttribute("disabled", "")
+                            document.getElementById('Online').removeAttribute("disabled", "")
+                        }
+                    }
+
+                    function apply() {
+                        console.log("sample");
+                        cop = document.getElementById('coupon').value
+                        subT = document.getElementById('subTotal').value
+                        console.log('subT' + subT + 'cop' + cop);
+                        $.ajax({
+                            url: '/api/applyCoupon',
+                            type: 'POST',
+                            data: { coupon: cop, totalValue: subT },
+                            success: function (data) {
+                                console.log(data);
+                                if (data.state) {
+                                    total = subT - data.disc;
+                                    document.getElementById('dis').innerHTML = data.offerdata.discount + "%";
+                                    document.getElementById('amt').innerHTML = "Rs " + data.disc
+                                    document.getElementById('gT').innerHTML = total
+                                    document.getElementById('last').innerHTML = total
+                                    // document.getElementById('final').value=total;
+                                    // console.log(  document.getElementById('final').value);
+                                    document.getElementById("payable").value = total;
+                                    console.log(data);
+                                } else {
+                                    document.getElementById("msg").innerHTML = data.messag;
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(textStatus, errorThrown);
+                            }
+                        });
+
+                    }
+                </script>
+
+
+                <script src="/FrontEnd/js/vendor/jquery-2.2.4.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+                    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+                    crossorigin="anonymous"></script>
+                <script src="/FrontEnd/js/vendor/bootstrap.min.js"></script>
+                <script src="/FrontEnd/js/jquery.ajaxchimp.min.js"></script>
+                <script src="/FrontEnd/js/jquery.nice-select.min.js"></script>
+                <script src="/FrontEnd/js/jquery.sticky.js"></script>
+                <script src="/FrontEnd/js/nouislider.min.js"></script>
+                <script src="/FrontEnd/js/jquery.magnific-popup.min.js"></script>
+                <script src="/FrontEnd/js/owl.carousel.min.js"></script>
+                <!--gmaps Js-->
+                <script
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+                <script src="/FrontEnd/js/gmaps.min.js"></script>
+                <script src="/FrontEnd/js/main.js"></script>
+                </body>
+
+                </html>

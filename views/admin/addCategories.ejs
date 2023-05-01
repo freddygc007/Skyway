@@ -1,0 +1,107 @@
+<%- include ('./header.ejs') %>
+  <!-- partial -->
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Create Categories </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Forms</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Form elements</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Add Categories</h4>
+              <p class="card-description"> Enter the details </p>
+              <form class="forms-sample" id="my-form" method="post" action="/api/admin/category/addcategory">
+                <div class="form-group">
+                  <label for="exampleInputUsername1">New Category Name</label>
+                  <input name="name" type="text" class="form-control" id="exampleInputUsername1"
+                    placeholder="Category Name">
+                </div>
+                <div class="form-group">
+                  <label>Category Under</label>
+                  <div>
+                    <select class="form-control" name="parentId">
+                      <option value="">Select Categories</option>
+                      <% if (data.length>0) { %>
+                        <% for (let i=0; i < data.length; i++) { %>
+                          <option value="<%= data[i]._id %>">
+                            <%= data[i].name %>
+                          </option>
+                          <% } %>
+                            <% } %>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-gradient-primary me-2"
+                  onclick="event.preventDefault();showSweetAlert(event)">Submit</button>
+                <a href="/api/admin/collections" class="btn btn-light">Cancel</a>
+
+                <div style="margin-top: 1rem;"><span style="color: red;">
+                    <%=err%> <br>
+                  </span></div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- partial:../../partials/_footer.html -->
+      <footer class="footer">
+        <div class="container-fluid d-flex justify-content-between">
+          <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright ©
+            bootstrapdash.com 2021</span>
+          <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
+              href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin
+              template</a> from Bootstrapdash.com</span>
+        </div>
+      </footer>
+      <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function showSweetAlert(event) {
+      event.preventDefault(); // Prevent form submission
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to submit this form!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, submit it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Submit the form
+          document.getElementById('my-form').submit();
+        }
+      });
+    }
+  </script>
+  <!-- plugins:js -->
+  <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page -->
+  <script src="/assets/js/file-upload.js"></script>
+  <!-- End custom js for this page -->
+  </body>
+
+  </html>

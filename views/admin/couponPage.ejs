@@ -1,0 +1,147 @@
+<%- include ('./header.ejs') %>
+        
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Striped Table</h4>
+                  <p class="card-description"> Add class <code>.table-striped</code>
+                  </p>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th> Sl No </th>
+                        <th> Coupon Code </th>
+                        <th> Discount </th>
+                        <th> Expiry Date </th>
+                        <th> Minimum Purchase </th>
+                        <th> Maximum Discount </th>
+                        <th> Status </th>
+                        <th> Action </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     <% if(coupon.length>0){%>
+                      <%for(let i=0;i<coupon.length;i++){%>
+                          <tr>
+                            <td class="py-1"><%= i+1 %></td>
+                            <td> <%= coupon[i].code %></td>
+                            <td> <%= coupon[i].discount %></td>
+                            <td> <%= coupon[i].expirydate %></td>
+                            <td> <%= coupon[i].minPurchase %></td>
+                            <td> <%= coupon[i].maxDiscount %></td>
+                            <td> 
+                              <%if(coupon[i].isActive){%>
+                                <button type="button" class="btn btn-sm btn-gradient-success">Active</button>
+                                <%}else{%>
+                                <button type="button" class="btn btn-sm btn-gradient-danger">Used</button>
+                                <%}%>
+                            <td><a href="/api/admin/editcoupon?id=<%= coupon[i]._id %>" class="btn btn-sm btn-gradient-primary" type="button">Edit</a>
+
+                              <form style="display: inline-block;margin-bottom: .5rem;" method="POST" action="/api/admin/deletecoupon/<%= coupon[i]._id %>?_method=DELETE" id="delete-form">
+                                <button class="btn btn-sm btn-gradient-danger" type="submit" onclick="showDeleteConfirmation(event)">Delete</button> 
+                            </form>
+                            </td>
+                          </tr>
+                        <%}%>
+                      <%}%>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="page-header">
+              <h3 class="page-title"> Add Coupons </h3>
+            </div>
+            <div class="row">
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Create coupon</h4>
+                    <p class="card-description"> Please enter detils </p>
+                    <form class="forms-sample" method="post" action="/api/admin/coupon">
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Coupon Code</label>
+                        <input type="text" name="code" class="form-control" id="exampleInputUsername1" placeholder="Coupon Code">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Discount</label>
+                        <input type="number" name="discount" class="form-control" id="exampleInputEmail1" placeholder="Discount">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Expiry Date</label>
+                        <input type="date" name="expirydate" placeholder="Type here" class="form-control" id="product_slug" />
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputConfirmPassword1">Min Purchase</label>
+                        <input type="text" name="minPurchase" class="form-control" id="exampleInputConfirmPassword1" placeholder="Minimum Purchase">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputConfirmPassword1">Max Discount</label>
+                        <input type="text" name="maxDiscount" class="form-control" id="exampleInputConfirmPassword1" placeholder="Maximum Discount">
+                      </div>
+                      <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                      <button class="btn btn-light">Cancel</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer">
+            <div class="container-fluid d-flex justify-content-between">
+              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © bootstrapdash.com 2021</span>
+              <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template</a> from Bootstrapdash.com</span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+  <script>
+    function showDeleteConfirmation(event) {
+        event.preventDefault(); // prevent the default form submission behavior
+    
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to delete this coupon?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                // if user clicks "OK", submit the form to delete the product
+                document.querySelector('#delete-form').submit();
+            }
+        });
+    }
+    </script>
+
+   
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="/assets/js/off-canvas.js"></script>
+    <script src="/assets/js/hoverable-collapse.js"></script>
+    <script src="/assets/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="/assets/js/file-upload.js"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

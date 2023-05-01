@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+*{
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #D9D9D9;
+}
+/* color */
+.color-red{
+    color: #FF0000;
+}
+.color-bg{
+    background-color: #D9D9D9;
+}
+.color-dbg{
+    background-color: #BBBBBB;
+}
+
+
+.nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    -webkit-box-shadow: 0px 2px 16px 1px rgba(0,0,0,0.21);
+    -moz-box-shadow: 0px 2px 16px 1px rgba(0,0,0,0.21);
+    box-shadow: 0px 2px 16px 1px rgba(0,0,0,0.21);
+}
+.logo{
+    width: 157px;
+    padding-left: 30px;
+}
+ul{
+    display: flex;
+}
+li{
+    list-style: none;
+    padding: 2rem;
+    font-weight: 400;
+    font-size: 1rem;
+}
+.cart-align{
+    padding-right: 50px;
+}
+.search{
+    border-radius: 7px;
+    border: none;
+    height: 30px;
+    width: 200px;
+}
+
+
+
+
+/* Content */
+.body-container{
+    display: flex;
+    width: 500px;
+    min-height: 50vh;
+    margin: 3rem auto;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.btn{
+    color: #Ffff;
+    background-color: #FF0000;
+    padding: 10px 40px;
+    border-radius: 10px;
+    border: none;
+    font-size: large;
+    font-weight: 500;
+}
+.btn-fgt{
+    color: #Ffff;
+    background-color: #FF0000;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: .8rem;
+    font-weight: 500;
+    margin-top: 30px;
+}
+.input-text::placeholder{
+    color: #BBBBBB;
+    padding-left: 20px;
+}
+form .size{
+    height: 60px;
+    width: 500px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+}
+form .size-sm{
+    height: 60px;
+    width: 240px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+}
+.gender-group{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+.gender-radio{
+    margin-right: 10px;
+}
+.city-state{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
+.footer{
+    position: absolute;
+    bottom: 0;
+}
+footer p{
+    font-size: .8rem;
+    width: 213px;
+    padding-top: .3rem;
+}
+.foot-cont{
+    padding-left: 50px;
+    width: 100%;
+}
+footer h3{
+    font-size: 1.3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.foot-icon{
+    height: 1rem;
+    fill: #FF0000;
+}
+.foot-icon2{
+    height: 1.5rem;
+    fill: #FF0000;
+}
+footer span{
+    padding-right: .8rem;
+}
+.foot-sec1{
+    display: flex;
+}
+.foot-card{
+    padding-right: 3rem;
+}
+.ico{
+    display: flex;
+}
+.newsletter{
+    padding-bottom: 1rem
+}
+.line{
+    background-color: black;
+    height: 1px;
+    width: 90%;
+    margin: 20px;
+}
+footer h5{
+    font-weight: 400;
+    padding-bottom : 20px;
+}
+.copy-line{
+    display: flex;
+    justify-content: space-between;
+    margin-right:  50px;
+}
