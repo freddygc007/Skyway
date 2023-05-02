@@ -7,7 +7,7 @@ exports.isAdminLogin =async (req,res,next)=>{
         }else{
             console.log('userlogged false');
 
-            res.redirect('/api/admin/login');
+            res.redirect('/admin/login');
         }
     } catch (error) {
         console.log(error.message);

@@ -45,7 +45,7 @@ console.log(foundName);
       }
     })
     .catch((error) => {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     });
   }else{
     const categoryObj={

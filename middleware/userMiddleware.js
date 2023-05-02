@@ -8,7 +8,7 @@ exports.isLogin = (req,res,next)=>{
             //the user has logged in
            next()
         }else{
-            res.redirect('/api/signin');
+            res.redirect('/signin');
         }
     } catch (error) {
         console.log(error.message);
@@ -21,7 +21,7 @@ const isLogout = async (req,res,next)=>{
         
         if(req.session.userLogged){
 
-            res.redirect("/api/home")
+            res.redirect("/")
             
         }else{
             

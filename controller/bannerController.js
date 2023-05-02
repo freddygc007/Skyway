@@ -30,7 +30,7 @@ exports.addBanner = async (req, res) => {
       });
       const bannerData = await bannerDetails.save();
       if (bannerData) {
-        res.redirect("/api/admin/banner");
+        res.redirect("/admin/banner");
       }
     } catch (error) {
       console.log(error.message);
@@ -49,9 +49,9 @@ exports.deleteBanner = async (req, res) => {
     if (!Ban) {
       return res.status(404).send("Product not found");
     }
-    res.redirect('/api/admin/banner');
+    res.redirect('/admin/banner');
   } catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
 
