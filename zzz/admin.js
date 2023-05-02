@@ -26,7 +26,7 @@ exports.adminSignIn= async(req,res)=>{
                 req.session.admin_id = userData.id;
                 req.session.userLogged = true;
             
-                res.redirect('/api/admin/dashboard');
+                res.redirect('/admin/dashboard');
                 
                 }else{
                     res.render("adminSignin",{message:"Authorisation Required"})
@@ -40,7 +40,7 @@ exports.adminSignIn= async(req,res)=>{
         }
     }
     catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
         
     }
 
@@ -50,12 +50,12 @@ exports.adminSignIn= async(req,res)=>{
 exports.loadAdminLogin= async(req,res)=>{
     try {
         if(req.session.userLogged){
-            res.redirect("/api/admin/dashboard")
+            res.redirect("/admin/dashboard")
         }else{
             res.render('adminSignin')
         }
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 
 }
@@ -64,10 +64,10 @@ exports.loadDashboard= async(req,res)=>{
         if(req.session.userLogged){
             res.render('dashboard')
         }else{
-            res.redirect('/api/admin/login')
+            res.redirect('/admin/login')
         }
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 
 }
@@ -79,9 +79,9 @@ exports.adminlogout = async(req,res)=>{
     
     req.session.userLogged=false
     console.log( req.session.adminlogged);
-    res.redirect("/api/admin/login")
+    res.redirect("/admin/login")
 } catch(error){
-  res.redirect('/api/admin/error')
+  res.redirect('/admin/error')
 }
 }
 
@@ -90,7 +90,7 @@ exports.listUser =  async(req,res)=>{
         const userData = await User.find({role:'user'});
         res.render('userList',{users:userData})
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 }
 
@@ -102,14 +102,14 @@ exports.blockUser = async(req,res)=>{
         user.blocked=!user.blocked
         await user.save()
         console.log(user);
-        res.redirect("/api/admin/users")
+        res.redirect("/admin/users")
       }else{
         res.status(404).json({message: "user not found"})
       }
   
     }
     catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
   }
   
   
@@ -129,7 +129,7 @@ exports.loadPorductAdd=(req,res)=>{
         res.status(400).json({ error });
       });
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 }
 
@@ -163,7 +163,7 @@ exports.listProducts =  async(req,res)=>{
         const products=product.reverse()
         res.render('listProducts',{data:products,categories:categoryList})
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 }
 
@@ -187,7 +187,7 @@ console.log(foundName);
       }
     })
     .catch((error) => {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     });
   }else{
     const categoryObj={
@@ -203,9 +203,9 @@ console.log(foundName);
   const cat =new Category(categoryObj);
   cat.save()
   .then((category)=>{
-      res.status(201).redirect('/api/admin/collections')
+      res.status(201).redirect('/admin/collections')
       return console.log(category)})
-  .catch((error)=>{return res.redirect('/api/admin/error')})
+  .catch((error)=>{return res.redirect('/admin/error')})
   }
 };
 
@@ -222,7 +222,7 @@ exports.getCategories = (req, res) => {
         }
       })
       .catch((error) => {
-        cres.redirect('/api/admin/error')
+        cres.redirect('/admin/error')
       });
   };
 
@@ -238,10 +238,10 @@ exports.loadAddCategory= async (req,res)=>{
         }
       })
       .catch((error) => {
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       });
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 }
 
@@ -258,7 +258,7 @@ exports.loadEditCollection = async (req,res)=>{
         }
         
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 }
 
@@ -270,10 +270,10 @@ exports.updateCategory = async(req,res)=>{
             categories.name = req.body.name;
             categories.parentId = req.body.parentId;
             await categories.save();
-            res.redirect('/api/admin/collections');
+            res.redirect('/admin/collections');
         
          } catch (error) {
-          res.redirect('/api/admin/error')
+          res.redirect('/admin/error')
     }
 }
 
@@ -290,17 +290,17 @@ exports.deleteCategory = async(req, res) => {
           console.log('hai');
           categories.delete=!categories.delete
           await categories.save()
-          res.redirect('/api/admin/collections');
+          res.redirect('/admin/collections');
         }else{
           const delcategory = await Category.findByIdAndDelete({_id:id});
           console.log('delcategory');
-          res.redirect('/api/admin/collections');
+          res.redirect('/admin/collections');
         }
       }else{
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       }
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
   }
   
@@ -313,9 +313,9 @@ exports.deleteCategory = async(req, res) => {
 //       if (!categories) {
 //         return res.status(404).send("Category not found");
 //       }
-//       res.redirect('/api/admin/collections');
+//       res.redirect('/admin/collections');
 //     } catch (error) {
-//       res.redirect('/api/admin/error')
+//       res.redirect('/admin/error')
 //     }
 //   }
   
@@ -346,9 +346,9 @@ exports.deleteCategory = async(req, res) => {
   
       try {
         const savedProduct = await product.save()
-        res.status(201).redirect('/api/admin/products')
+        res.status(201).redirect('/admin/products')
       } catch (error) {
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       }
     
   }
@@ -367,7 +367,7 @@ exports.deleteCategory = async(req, res) => {
       }
         }
       catch(error){
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       }
   }
 
@@ -380,9 +380,9 @@ exports.deleteCategory = async(req, res) => {
         if (!product) {
             return res.status(404).send("Product not found");
           }
-        res.redirect('/api/admin/products');
+        res.redirect('/admin/products');
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
   }
 
@@ -405,11 +405,11 @@ exports.deleteCategory = async(req, res) => {
             products.category = req.body.category;
 
             await products.save();
-            res.redirect('/api/admin/products');
+            res.redirect('/admin/products');
 
 
       } catch (error) {
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
 
       }
 
@@ -454,13 +454,13 @@ exports.deleteCategory = async(req, res) => {
     
         await newcoupon.save();
     
-        res.redirect('/api/admin/coupon');
+        res.redirect('/admin/coupon');
       } 
       }
   
       catch (err) {
         console.log(err);
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       }
   }
 
@@ -473,10 +473,10 @@ exports.deleteCategory = async(req, res) => {
         if (!coupon) {
             return res.status(404).send("Product not found");
           }
-        res.redirect('/api/admin/coupon');
+        res.redirect('/admin/coupon');
   }
   catch(error){
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
 
@@ -500,7 +500,7 @@ exports.LoadEditCoupon = async(req,res)=>{
 
       res.status(200).render('editCoupon',{coupon:edcoupon,date:formattedDate})
       } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
   }
 }
 exports.updateCoupon = async(req,res)=>{
@@ -517,13 +517,13 @@ exports.updateCoupon = async(req,res)=>{
           edcoupon.minPurchase = minPurchase;
           edcoupon.maxDiscount = maxDiscount;
           await edcoupon.save();
-          res.redirect('/api/admin/coupon');
+          res.redirect('/admin/coupon');
       }else{
         return res.status(404).json({ errors: [{ msg: 'Coupon not found' }] });
       }
        } catch (error) {
         console.log(error);
-        // res.redirect('/api/admin/error')
+        // res.redirect('/admin/error')
   }
 }
 
@@ -561,7 +561,7 @@ exports.addBanner=async(req,res)=>{
       });
       const bannerData = await bannerDetails.save();
       if (bannerData) {
-        res.redirect("/api/admin/banner");
+        res.redirect("/admin/banner");
       }
     } catch (error) {
       console.log(error.message);
@@ -580,9 +580,9 @@ exports.deleteBanner=async(req,res)=>{
     if (!Ban) {
       return res.status(404).send("Product not found");
     }
-  res.redirect('/api/admin/banner');
+  res.redirect('/admin/banner');
 } catch (error) {
-  res.redirect('/api/admin/error')
+  res.redirect('/admin/error')
 }
 }
 
@@ -594,11 +594,11 @@ exports.blockBanner = async(req,res)=>{
     disBanner.is_active=!disBanner.is_active;
     const upBanner = await disBanner.save();
     if(upBanner){
-      res.redirect('/api/admin/banner');
+      res.redirect('/admin/banner');
     }else{
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
   } catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
