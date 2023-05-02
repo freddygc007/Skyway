@@ -28,6 +28,7 @@ adminRoute.set("view engine", "ejs");
 adminRoute.get('/login',loadAdminLogin)
 adminRoute.post('/login',adminSignIn);
 adminRoute.get('/dashboard',isAdminLogin,loadDashboard);
+adminRoute.get('/',isAdminLogin,loadDashboard);
 
 adminRoute.get('/users',isAdminLogin,listUser)
 adminRoute.put('/block/:id',isAdminLogin,blockUser)
