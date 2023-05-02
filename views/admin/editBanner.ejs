@@ -18,7 +18,7 @@
                   <div class="card-body">
                     <h4 class="card-title">Banner Details</h4>
                     <p class="card-description"> Please enter the details </p>
-                    <form enctype="multipart/form-data" class="forms-sample" method="post" action="/api/admin/editbanner?_method=PUT">
+                    <form enctype="multipart/form-data" class="forms-sample" method="post" action="/admin/editbanner?_method=PUT">
                       <input type="hidden" name="id" value="<%=banner._id %>">
                       <div class="form-group">
                         <label for="exampleInputName1">Banner Name</label>
@@ -45,7 +45,7 @@
                         <input type="text" name="link" class="form-control" id="exampleInputCity1" value="<%= banner.link %>" placeholder="link" required>
                       </div>
                       <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-                      <a href="/api/admin/banner" class="btn btn-light">Cancel</a>
+                      <a href="/admin/banner" class="btn btn-light">Cancel</a>
                     </form>
                   </div>
                 </div>

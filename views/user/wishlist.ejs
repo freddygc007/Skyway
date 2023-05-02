@@ -53,12 +53,12 @@
                                     </td>
                                     <td>
                                         <a class="primary-btn"
-                                            href="/api/adCartremoveWishlist?id=<%=key.productId._id%>">
+                                            href="/adCartremoveWishlist?id=<%=key.productId._id%>">
                                             ADD
                                         </a>
                                     </td>
                                     <td><a class="primary-btn"
-                                            href="/api/deleteWishlist?id=<%=key.productId._id%>"
+                                            href="/deleteWishlist?id=<%=key.productId._id%>"
                                             onclick="showSweetAlert(event)">
                                             Remove
                                         </a>
@@ -282,7 +282,7 @@
                 } else {
 
                     $.ajax({
-                        url: '/api/updatecart',
+                        url: '/updatecart',
                         type: 'POST',
                         data: { Quantity: quantity, _id: id },
                         success: function (data) {

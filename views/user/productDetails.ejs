@@ -81,9 +81,9 @@
 						<div class="card_area d-flex align-items-center">
 							<%if(product.quantity!=0){%>
 								<a class="primary-btn"
-								href="/api/addcart?categoryid=<%=product.category%>&productid=<%=product._id%>&productdetails=true">Add
+								href="/addcart?categoryid=<%=product.category%>&productid=<%=product._id%>&productdetails=true">Add
 								to Cart</a>
-							<a class="icon_btn" href="/api/addWishlist?categoryid=<%=product.category%>&productid=<%=product._id%>"><i class="lnr lnr lnr-heart"></i></a>
+							<a class="icon_btn" href="/addWishlist?categoryid=<%=product.category%>&productid=<%=product._id%>"><i class="lnr lnr lnr-heart"></i></a>
 							<%}else if(product.quantity==0){%>
 								<span style="color: red;font-size: 1.2rem;">Out of Stock</span>
 								<%}%>

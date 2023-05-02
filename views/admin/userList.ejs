@@ -43,11 +43,11 @@
                         </td>
                         <td>
                           <% if (users[i].blocked) { %>
-                            <form class="forms-sample" method="post" action="/api/admin/block/<%= users[i]._id %>?_method=PUT" id="delete-form-<%= users[i]._id %>">
+                            <form class="forms-sample" method="post" action="/admin/block/<%= users[i]._id %>?_method=PUT" id="delete-form-<%= users[i]._id %>">
                               <button class="btn btn-warning" type="submit" onclick="addSweetAlertToFormSubmit('delete-form-<%= users[i]._id %>', 'This action cannot be undone')">Unblock</button>
                             </form>
                             <% } else { %>
-                              <form class="forms-sample" method="post" action="/api/admin/block/<%= users[i]._id %>?_method=PUT" id="delete-form-<%= users[i]._id %>">
+                              <form class="forms-sample" method="post" action="/admin/block/<%= users[i]._id %>?_method=PUT" id="delete-form-<%= users[i]._id %>">
                                 <button class="btn btn-primary" type="submit" onclick="addSweetAlertToFormSubmit('delete-form-<%= users[i]._id %>', 'This action cannot be undone')">Block</button>
                               </form>
                               <% } %>

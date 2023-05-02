@@ -17,7 +17,7 @@
             <div class="card-body">
               <h4 class="card-title">Add Categories</h4>
               <p class="card-description"> Enter the details </p>
-              <form class="forms-sample" id="my-form" method="post" action="/api/admin/category/addcategory">
+              <form class="forms-sample" id="my-form" method="post" action="/admin/category/addcategory">
                 <div class="form-group">
                   <label for="exampleInputUsername1">New Category Name</label>
                   <input name="name" type="text" class="form-control" id="exampleInputUsername1"
@@ -40,7 +40,7 @@
                 </div>
                 <button type="submit" class="btn btn-gradient-primary me-2"
                   onclick="event.preventDefault();showSweetAlert(event)">Submit</button>
-                <a href="/api/admin/collections" class="btn btn-light">Cancel</a>
+                <a href="/admin/collections" class="btn btn-light">Cancel</a>
 
                 <div style="margin-top: 1rem;"><span style="color: red;">
                     <%=err%> <br>

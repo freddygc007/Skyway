@@ -37,10 +37,10 @@
                             <%= data[i].name %>
                           </td>
                           <td></td>
-                          <td><a href="/api/admin/editcollection?id=<%= data[i]._id %>" class="btn btn-primary"
+                          <td><a href="/admin/editcollection?id=<%= data[i]._id %>" class="btn btn-primary"
                               onclick="event.preventDefault();showSweetAlertEdit(this)">Edit</a></td>
                           <td>
-                                <form method="POST" action="/api/admin/deletemaincollection/<%= data[i]._id %>?_method=DELETE" id="delete-form-<%= data[i]._id %>">
+                                <form method="POST" action="/admin/deletemaincollection/<%= data[i]._id %>?_method=DELETE" id="delete-form-<%= data[i]._id %>">
                                   <button class="btn btn-danger" type="submit" onclick="showDeletemainConfirmation(event,'<%= data[i]._id %>')">Delete</button> 
                               </form>
                             </td>
@@ -53,10 +53,10 @@
                                 <td>
                                   <%= data[i].children[j].name %>
                                 </td>
-                                <td><a href="/api/admin/editcollection?id=<%= data[i].children[j]._id %>"
+                                <td><a href="/admin/editcollection?id=<%= data[i].children[j]._id %>"
                                     class="btn btn-primary" onclick="event.preventDefault();showSweetAlertEdit(this)">Edit</a></td>
                                 <td>
-                                  <form method="POST" action="/api/admin/deletecollection/<%= data[i].children[j]._id %>?_method=DELETE" id="delete-form-<%= data[i].children[j]._id %>">
+                                  <form method="POST" action="/admin/deletecollection/<%= data[i].children[j]._id %>?_method=DELETE" id="delete-form-<%= data[i].children[j]._id %>">
                                     <button class="btn btn-danger" type="submit" onclick="showDeleteConfirmation(event,'<%= data[i].children[j]._id %>')">Delete</button> 
                                 </form>
                                 </td>
@@ -74,7 +74,7 @@
           </div>
         </div>
       </div>
-      <a href="/api/admin/category/addcategory"><button onclick="" class="btn btn-gradient-primary me-2">Add
+      <a href="/admin/category/addcategory"><button onclick="" class="btn btn-gradient-primary me-2">Add
           Category</button></a>
     </div>
     <!-- content-wrapper ends -->

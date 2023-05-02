@@ -38,9 +38,9 @@
                                 <%}else{%>
                                 <button type="button" class="btn btn-sm btn-gradient-danger">Used</button>
                                 <%}%>
-                            <td><a href="/api/admin/editcoupon?id=<%= coupon[i]._id %>" class="btn btn-sm btn-gradient-primary" type="button">Edit</a>
+                            <td><a href="/admin/editcoupon?id=<%= coupon[i]._id %>" class="btn btn-sm btn-gradient-primary" type="button">Edit</a>
 
-                              <form style="display: inline-block;margin-bottom: .5rem;" method="POST" action="/api/admin/deletecoupon/<%= coupon[i]._id %>?_method=DELETE" id="delete-form">
+                              <form style="display: inline-block;margin-bottom: .5rem;" method="POST" action="/admin/deletecoupon/<%= coupon[i]._id %>?_method=DELETE" id="delete-form">
                                 <button class="btn btn-sm btn-gradient-danger" type="submit" onclick="showDeleteConfirmation(event)">Delete</button> 
                             </form>
                             </td>
@@ -61,7 +61,7 @@
                   <div class="card-body">
                     <h4 class="card-title">Create coupon</h4>
                     <p class="card-description"> Please enter detils </p>
-                    <form class="forms-sample" method="post" action="/api/admin/coupon">
+                    <form class="forms-sample" method="post" action="/admin/coupon">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Coupon Code</label>
                         <input type="text" name="code" class="form-control" id="exampleInputUsername1" placeholder="Coupon Code">

@@ -100,11 +100,11 @@
 												</div>
 												<div class="prd-bottom">
 			
-													<a href="/api/addcart?categoryid=<%=product[i].category%>&productid=<%=product[i]._id%>&productlist=true" class="social-info">
+													<a href="/addcart?categoryid=<%=product[i].category%>&productid=<%=product[i]._id%>&productlist=true" class="social-info">
 														<span class="ti-bag"></span>
 														<p class="hover-text">add to bag</p>
 													</a>
-													<a href="/api/addWishlist?categoryid=<%=product[i].category%>&productid=<%=product[i]._id%>" class="social-info">
+													<a href="/addWishlist?categoryid=<%=product[i].category%>&productid=<%=product[i]._id%>" class="social-info">
 														<span class="lnr lnr-heart"></span>
 														<p class="hover-text">Wishlist</p>
 													</a>
@@ -112,7 +112,7 @@
 														<span class="lnr lnr-sync"></span>
 														<p class="hover-text">compare</p>
 													</a> -->
-													<a href="/api/viewProduct?id=<%= product[i]._id %>" class="social-info">
+													<a href="/viewProduct?id=<%= product[i]._id %>" class="social-info">
 														<span class="lnr lnr-move"></span>
 														<p class="hover-text">view more</p>
 													</a>
@@ -135,7 +135,7 @@
 												</div>
 												<div class="prd-bottom">
 													<span style="color: red;font-size: large;">Out of Stock</span>
-													<a href="/api/viewProduct?id=<%= product[i]._id %>" class="social-info">
+													<a href="/viewProduct?id=<%= product[i]._id %>" class="social-info">
 														<span class="lnr lnr-move"></span>
 														<p class="hover-text">view more</p>
 													</a>
@@ -398,7 +398,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			console.log('sdf'+ limit);
             console.log(arr + '\n' + limit + '\n' + sort + '\n' + search + '\n' + page);
             $.ajax({
-                url: '/api/shop',
+                url: '/shop',
                 type: 'GET',
                 data: { category: arr, limit: limit, sort: sort, search: search, page: page, ajax: true},
                 success: function (data) {
@@ -426,11 +426,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                     <div class="prd-bottom">
                         ${productItem.quantity > 0 ?
                             `
-                                <a href="/api/addcart?categoryid=${productItem.category}&productid=${productItem._id}&productlist=true" class="social-info">
+                                <a href="/addcart?categoryid=${productItem.category}&productid=${productItem._id}&productlist=true" class="social-info">
                                     <span class="ti-bag"></span>
                                     <p class="hover-text">add to bag</p>
                                 </a>
-                                <a href="/api/addWishlist?categoryid=${productItem.category}&productid=${productItem._id}" class="social-info">
+                                <a href="/addWishlist?categoryid=${productItem.category}&productid=${productItem._id}" class="social-info">
                                     <span class="lnr lnr-heart"></span>
                                     <p class="hover-text">Wishlist</p>
                                 </a>
@@ -440,7 +440,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                                 <span style="color: red;font-size: large;">Out of Stock</span>
                             `
                         }
-                        <a href="/api/viewProduct?id=${productItem._id}" class="social-info">
+                        <a href="/viewProduct?id=${productItem._id}" class="social-info">
                             <span class="lnr lnr-move"></span>
                             <p class="hover-text">view more</p>
                         </a>

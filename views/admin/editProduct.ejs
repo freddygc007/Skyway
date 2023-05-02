@@ -18,7 +18,7 @@
                   <div class="card-body">
                     <h4 class="card-title">Product Details</h4>
                     <p class="card-description"> Please enter the details </p>
-                    <form enctype="multipart/form-data" class="forms-sample" method="post" action="/api/admin/editproduct?_method=PUT">
+                    <form enctype="multipart/form-data" class="forms-sample" method="post" action="/admin/editproduct?_method=PUT">
                       <input type="hidden" name="id" value="<%=product._id %>">
                       <div class="form-group">
                         <label for="exampleInputName1">Product Name</label>
@@ -80,7 +80,7 @@
                       </div>
                       <input type="hidden" value="<%=product._id%>" id="pId"/>
                       <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-                      <a href="/api/admin/products" class="btn btn-light">Cancel</a>
+                      <a href="/admin/products" class="btn btn-light">Cancel</a>
                     </form>
                   </div>
                 </div>
@@ -112,7 +112,7 @@
         console.log(pId);
         const data = {img:id , pId:pId}
         console.log(id,pId);
-        axios.post('/api/admin/updateImage', data)
+        axios.post('/admin/updateImage', data)
         .then(res => {
           if(res.data){
             console.log(res.data);

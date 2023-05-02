@@ -132,7 +132,7 @@
 						<div class="hover">
 							<h4>New to our website?</h4>
 							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="primary-btn" href="/api/signup">Create an Account</a>
+							<a class="primary-btn" href="/signup">Create an Account</a>
 						</div>
 					</div>
 				</div>
@@ -140,7 +140,7 @@
 					<div class="login_form_inner">
 						<h3>Enter OTP</h3><br>
 						<span><%=message%></span>
-						<form class="row login_form" id="contactForm" action="/api/verifysignin" method="POST" onsubmit="">
+						<form class="row login_form" id="contactForm" action="/verifysignin" method="POST" onsubmit="">
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="number" name="otp" placeholder="Enter OTP" onchange="">
 							</div><br>                            
@@ -272,7 +272,7 @@ resendButton.disabled = true;
 startCountdown();
 
 // Make an AJAX call to the server to resend the OTP
-fetch('/api/resendotp', {
+fetch('/resendotp', {
 method: 'POST',
 body: JSON.stringify({
   name: '<%= userData.name %>',

@@ -23,7 +23,7 @@
         <div class="container">
             <div class="returning_customer">
                 <div>
-                    <form method="post" action="/api/addAddressch" class="colorlib-form">
+                    <form method="post" action="/addAddressch" class="colorlib-form">
                         <div class="row">
 
                             <label>Name *</label>
@@ -82,7 +82,7 @@
                 <h2>CHOOSE ADDRESS</h2>
             </div>
             <div>
-                <form action="/api/placeorder" method="post" onsubmit="return status()">
+                <form action="/placeorder" method="post" onsubmit="return status()">
 
                     <div class="row p-4 rounded container-fluid d-flex">
                         <% for(i=0;i<address.length;i++){%>
@@ -107,10 +107,10 @@
                                                                 <%=address[i].zip%>
                                     </label><br>
 
-                                    <a href="/api/editaddress?id=<%=address[i]._id%>"><button
+                                    <a href="/editaddress?id=<%=address[i]._id%>"><button
                                             style="margin-top: 10px; margin-left: 5%;" type="button"
                                             class="btn-default">edit</button></a>
-                                    <a href="/api/delete?id=<%=address[i]._id%>"><button
+                                    <a href="/delete?id=<%=address[i]._id%>"><button
                                             style="margin-top: 10px; margin-left: 5%;" type="button"
                                             class="btn-default">delete</button></a>
                             </div>
@@ -384,7 +384,7 @@
                         subT = document.getElementById('subTotal').value
                         console.log('subT' + subT + 'cop' + cop);
                         $.ajax({
-                            url: '/api/applyCoupon',
+                            url: '/applyCoupon',
                             type: 'POST',
                             data: { coupon: cop, totalValue: subT },
                             success: function (data) {

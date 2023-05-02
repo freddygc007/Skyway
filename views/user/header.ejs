@@ -66,20 +66,20 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="/api/home">Home</a></li>
-							<li class="nav-item "><a class="nav-link" href="/api/shop">Shop</a></li>
-							<li class="nav-item"><a class="nav-link" href="/api/contact">Contact</a></li>
+							<li class="nav-item active"><a class="nav-link" href="/home">Home</a></li>
+							<li class="nav-item "><a class="nav-link" href="/shop">Shop</a></li>
+							<li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
 							<%if(loggedIn){%>
-								<li class="nav-item"><a class="nav-link" href="/api/profile"><%=userData%></a></li>
-								<li class="nav-item"><a class="nav-link" href="/api/logout">Logout</a></li>
+								<li class="nav-item"><a class="nav-link" href="/profile"><%=userData%></a></li>
+								<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
 							<%}else{%>
-								<li class="nav-item"><a class="nav-link" href="/api/signin">login</a></li>
+								<li class="nav-item"><a class="nav-link" href="/signin">login</a></li>
 							<%}%>
 							
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="/api/wishlist" class="social-info"><span class="lnr lnr-heart"></span></a></li>
-							<li class="nav-item"><a href="/api/cart" class="cart"><span class="ti-bag"></span></a></li>
+							<li class="nav-item"><a href="/wishlist" class="social-info"><span class="lnr lnr-heart"></span></a></li>
+							<li class="nav-item"><a href="/cart" class="cart"><span class="ti-bag"></span></a></li>
 							<li class="nav-item">
 								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
 							</li>

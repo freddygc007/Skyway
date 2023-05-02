@@ -63,10 +63,10 @@
                                                 </td>
                                                 <td>
                                                     <a class="text-light btn btn-primary"
-                                                        href="/api/admin/loadOrderDetails?id=<%=orders[i]._id%>">view
+                                                        href="/admin/loadOrderDetails?id=<%=orders[i]._id%>">view
                                                         Details</a><br>
                                                     <br>
-                                                    <form action="/api/admin/updateStatus?_method=PUT" method="post">
+                                                    <form action="/admin/updateStatus?_method=PUT" method="post">
                                                         <select name="status" class="browser-default custom-select">
                                                             <option>
                                                                 <%=orders[i].status%>
@@ -216,7 +216,7 @@
             end = document.getElementById("enddate").value
             console.log(start, end);
             data = { start: start, end: end }
-            axios.post('/api/admin/updateOrder', data)
+            axios.post('/admin/updateOrder', data)
                 .then(res => {
                     if (res.data) {
                         console.log(res.data);
@@ -229,10 +229,10 @@
                                 ordersTableHTML += `<tr> <th>${i + 1}</th> <td>${order._id}</td> <td>${order.userId.name}</td> <td>${order.payment.amount}</td> <td>${order.payment.method}</td> <td>${order.status}</td> <td>${new Date(order.createdAt).toLocaleDateString()}</td> 
                                                 <td>
                                                     <a class="text-light btn btn-primary"
-                                                        href="/api/admin/loadOrderDetails?id=${order._id}">view
+                                                        href="/admin/loadOrderDetails?id=${order._id}">view
                                                         Details</a><br>
                                                     <br>
-                                                    <form action="/api/admin/updateStatus?_method=PUT" method="post">
+                                                    <form action="/admin/updateStatus?_method=PUT" method="post">
                                                         <select name="status" class="browser-default custom-select">
                                                             <option>
                                                                 ${order.status}

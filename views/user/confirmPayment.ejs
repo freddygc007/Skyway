@@ -105,7 +105,7 @@
 <body>
     <div class="card">
         <h1>Pay with Razorpay</h1>
-        <form method="get" action="/api/onlinePayment">
+        <form method="get" action="/onlinePayment">
             <input type="hidden" name="userId" value="<%= userId %>">
             <input type="hidden" name="total" value="<%= total %>">
             <input type="hidden" name="order_id" value="<%= orderId %>">
@@ -152,7 +152,7 @@
             res.send('payment Success')
             var payment_id = response.razorpay_payment_id;
             $.ajax({
-                url: 'api/onlinePayment',
+                url: '/onlinePayment',
                 type: 'GET',
                 data: { payment_id: payment_id },
                 success: function (data) {

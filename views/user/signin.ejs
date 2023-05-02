@@ -53,8 +53,8 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="/api/home">Home</a></li>
-							<li class="nav-item "><a class="nav-link" href="/api/shop">Shop</a></li>
+							<li class="nav-item active"><a class="nav-link" href="/home">Home</a></li>
+							<li class="nav-item "><a class="nav-link" href="/shop">Shop</a></li>
 							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false">Blog</a>
@@ -123,14 +123,14 @@
 						<div class="hover">
 							<h4>New to our website?</h4>
 							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="primary-btn" href="/api/signup">Create an Account</a>
+							<a class="primary-btn" href="/signup">Create an Account</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>Log in to enter</h3>
-						<form class="row login_form" id="contactForm" action="/api/signin" method="POST" onsubmit="return allChecking()">
+						<form class="row login_form" id="contactForm" action="/signin" method="POST" onsubmit="return allChecking()">
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="email" name="email" placeholder="Username" onchange="emailValidate()">
 							</div><br>
@@ -148,8 +148,8 @@
 							</div> -->
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" class="primary-btn" onclick="emailValidate(),passwordValidate()">Log In</button>
-								<a href="/api/otplogin" style="color: #fff;" type="submit"  class="primary-btn" onclick="">Login using OTP</a>
-								<a href="/api/forgetpassword">Forgot Password?</a>
+								<a href="/otplogin" style="color: #fff;" type="submit"  class="primary-btn" onclick="">Login using OTP</a>
+								<a href="/forgetpassword">Forgot Password?</a>
 							</div>
 						</form>
 					</div>

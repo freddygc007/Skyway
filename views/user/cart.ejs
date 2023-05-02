@@ -85,7 +85,7 @@
                                             <%=cartproducts.item[i].productId.price*cartproducts.item[i].qty%>
                                         </h5>
                                     </td>
-                                    <td><a class="primary-btn" href="/api/removecart?productid=<%= cartproducts.item[i].productId._id %>"
+                                    <td><a class="primary-btn" href="/removecart?productid=<%= cartproducts.item[i].productId._id %>"
                                         onclick="showSweetAlert(event)">
                                        Remove
                                      </a>
@@ -120,8 +120,8 @@
                                         </td>
                                         <td>
                                             <div class="checkout_btn_inner d-flex align-items-center">
-                                                <a class="gray_btn" href="/api/shop">Continue Shopping</a>
-                                                <a class="primary-btn" href="/api/checkout">Proceed to checkout</a>
+                                                <a class="gray_btn" href="/shop">Continue Shopping</a>
+                                                <a class="primary-btn" href="/checkout">Proceed to checkout</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -327,7 +327,7 @@ function showSweetAlert(event) {
                 } else {
 
                     $.ajax({
-                        url: '/api/updatecart',
+                        url: '/updatecart',
                         type: 'POST',
                         data: { Quantity: quantity, _id: id },
                         success: function (data) {

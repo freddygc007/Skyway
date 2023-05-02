@@ -32,7 +32,7 @@
                             </div>
                             <div class="d-flex">
                                 <%if(orders.status!="cancelled"){%>
-                                    <a href="/api/cancelorder?id=<%=orders._id%>">cancel</a>
+                                    <a href="/cancelorder?id=<%=orders._id%>">cancel</a>
                                 <%}%>
                               <div class="dropdown">
                                 <button class="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
