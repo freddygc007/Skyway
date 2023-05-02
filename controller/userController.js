@@ -49,7 +49,7 @@ exports.signUp = async(req,res,next)=>{
                 req.session.user_id = userData.id;
                 req.session.name = userData.name;
                 req.session.userLogged = true;    
-            res.redirect("home")
+            res.redirect("/")
       }
     } catch (error) {
       console.log(error.message);
@@ -72,7 +72,7 @@ exports.signIn= async(req,res)=>{
                 req.session.name = userData.name;
                 req.session.userLogged = true; 
             
-                res.redirect('/api/home');
+                res.redirect('/');
                 
                 }else{
                     console.log("you have been blocked by admin");
@@ -111,7 +111,7 @@ exports.verifySignInOtp=async(req,res)=>{
             req.session.name = userData.name;
             req.session.userLogged = true; 
         
-            res.redirect('/api/home');
+            res.redirect('/');
             
             }else{
                 console.log("you have been blocked by admin");
@@ -136,7 +136,7 @@ exports.loadLogin= async(req,res)=>{
     const message = req.flash('message')[0] || '';
     try {
         if(req.session.userLogged){
-            res.redirect("/api/home")
+            res.redirect("/")
         }else{
             res.render('signin',{access:""})
         }
@@ -148,7 +148,7 @@ exports.loadLogin= async(req,res)=>{
 exports.loadRegister= async(req,res)=>{
     try {
         if(req.session.userLogged){
-            res.redirect("/api/home")
+            res.redirect("/")
         }else{
             res.render('signup')
         }
@@ -169,7 +169,7 @@ exports.logoutuser= async(req,res)=>{
         
         req.session.user_id = "";
         req.session.userLogged = null
-        res.redirect("/api/home")
+        res.redirect("/")
         
 
      } catch (error) {
@@ -405,7 +405,7 @@ exports.addAddress=async(req,res)=>{
         })
         const newAddress = await nAddress.save();
         if (newAddress) {
-            res.redirect("/api/profile");
+            res.redirect("/profile");
         }
     } catch (error) {
 
@@ -427,7 +427,7 @@ exports.addAddressch=async(req,res)=>{
         })
         const newAddress = await nAddress.save();
         if (newAddress) {
-            res.redirect("/api/checkout");
+            res.redirect("/checkout");
         }
     } catch (error) {
 
@@ -439,7 +439,7 @@ exports.deleteAddress = async (req, res) => {
         const id = req.query.id;
         const Address = await address.deleteOne({ _id: id });
         if (Address) {
-            res.redirect("/api/profile");
+            res.redirect("/profile");
         }
     } catch (error) {
         console.log(error.message);
@@ -473,7 +473,7 @@ exports.UpdateAddress = async (req, res) => {
             }
         })
         console.log(upadteAddres);
-        res.redirect("/api/profile")
+        res.redirect("/profile")
     } catch (error) {
         console.log(error.message);
     }
@@ -499,7 +499,7 @@ exports.editUserUpdate = async (req, res) => {
                 contactNumber: req.body.number
             }
         })
-        res.redirect("/api/profile")
+        res.redirect("/profile")
     } catch (error) {
         console.log(error.message);
     }

@@ -72,9 +72,9 @@ exports.blockBanner = async (req, res) => {
       if(disBanner.is_active){
         disBanner.is_active=false;
         const upBanner = await disBanner.save();
-        res.redirect('/api/admin/banner');
+        res.redirect('/admin/banner');
       }else{
-        res.redirect('/api/admin/banner');
+        res.redirect('/admin/banner');
       }
     } else if(flag==0){
       console.log('flag0');
@@ -83,14 +83,14 @@ exports.blockBanner = async (req, res) => {
       console.log('dis' + disBanner.is_active);
       const upBanner = await disBanner.save();
       if (upBanner) {
-        res.redirect('/api/admin/banner');
+        res.redirect('/admin/banner');
       } else {
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       }
     }
 
   } catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
 
@@ -111,7 +111,7 @@ exports.editModifyBanner = async (req, res) => {
         },
       }
       );
-      res.redirect("/api/admin/banner")
+      res.redirect("/admin/banner")
     } catch (error) {
       console.log(error.message);
     }

@@ -20,7 +20,7 @@ exports.adminSignIn= async(req,res)=>{
                 req.session.admin_id = userData.id;
                 req.session.userLogged = true;
             
-                res.redirect('/api/admin/dashboard');
+                res.redirect('/admin/dashboard');
                 
                 }else{
                     res.render("adminSignin",{message:"Authorisation Required"})
@@ -34,7 +34,7 @@ exports.adminSignIn= async(req,res)=>{
         }
     }
     catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
         
     }
 
@@ -44,12 +44,12 @@ exports.adminSignIn= async(req,res)=>{
 exports.loadAdminLogin= async(req,res)=>{
     try {
         if(req.session.userLogged){
-            res.redirect("/api/admin/dashboard")
+            res.redirect("/admin/dashboard")
         }else{
             res.render('adminSignin')
         }
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 
 }
@@ -58,10 +58,10 @@ exports.loadAdminLogin= async(req,res)=>{
 //         if(req.session.userLogged){
 //             res.render('dashboard')
 //         }else{
-//             res.redirect('/api/admin/login')
+//             res.redirect('/admin/login')
 //         }
 //     } catch (error) {
-//       res.redirect('/api/admin/error')
+//       res.redirect('/admin/error')
 //     }
 
 // }
@@ -114,9 +114,9 @@ exports.adminlogout = async(req,res)=>{
     
     req.session.userLogged=false
     console.log( req.session.adminlogged);
-    res.redirect("/api/admin/login")
+    res.redirect("/admin/login")
 } catch(error){
-  res.redirect('/api/admin/error')
+  res.redirect('/admin/error')
 }
 }
 
@@ -125,7 +125,7 @@ exports.listUser =  async(req,res)=>{
         const userData = await User.find({role:'user'});
         res.render('userList',{users:userData})
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 }
 
@@ -138,13 +138,13 @@ exports.blockUser = async(req,res)=>{
         user.blocked=!user.blocked
         console.log(user.blocked);
         await user.save()
-        res.redirect("/api/admin/users")
+        res.redirect("/admin/users")
       }else{
         res.status(404).json({message: "user not found"})
       }
     }
     catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
   }
   }
 

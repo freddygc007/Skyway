@@ -40,13 +40,13 @@ const Coupon=require('../model/coupon')
     
         await newcoupon.save();
     
-        res.redirect('/api/admin/coupon');
+        res.redirect('/admin/coupon');
       } 
       }
   
       catch (err) {
         console.log(err);
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       }
   }
 
@@ -57,10 +57,10 @@ const Coupon=require('../model/coupon')
         if (!coupon) {
             return res.status(404).send("Product not found");
           }
-        res.redirect('/api/admin/coupon');
+        res.redirect('/admin/coupon');
   }
   catch(error){
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
 
@@ -76,7 +76,7 @@ exports.LoadEditCoupon = async(req,res)=>{
 
       res.status(200).render('editCoupon',{coupon:edcoupon,date:formattedDate})
       } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
   }
 }
 exports.updateCoupon = async(req,res)=>{
@@ -91,13 +91,13 @@ exports.updateCoupon = async(req,res)=>{
           edcoupon.minPurchase = minPurchase;
           edcoupon.maxDiscount = maxDiscount;
           await edcoupon.save();
-          res.redirect('/api/admin/coupon');
+          res.redirect('/admin/coupon');
       }else{
         return res.status(404).json({ errors: [{ msg: 'Coupon not found' }] });
       }
        } catch (error) {
         console.log(error);
-        // res.redirect('/api/admin/error')
+        // res.redirect('/admin/error')
   }
 }
 

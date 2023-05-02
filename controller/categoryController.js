@@ -61,9 +61,9 @@ console.log(foundName);
   const cat =new Category(categoryObj);
   cat.save()
   .then((category)=>{
-      res.status(201).redirect('/api/admin/collections')
+      res.status(201).redirect('/admin/collections')
       return console.log(category)})
-  .catch((error)=>{return res.redirect('/api/admin/error')})
+  .catch((error)=>{return res.redirect('/admin/error')})
   }
 };
 
@@ -79,7 +79,7 @@ exports.getCategories = (req, res) => {
         }
       })
       .catch((error) => {
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       });
   };
 
@@ -95,10 +95,10 @@ exports.loadAddCategory= async (req,res)=>{
         }
       })
       .catch((error) => {
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       });
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 }
 
@@ -115,7 +115,7 @@ exports.loadEditCollection = async (req,res)=>{
         }
         
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
 }
 
@@ -130,10 +130,10 @@ exports.updateCategory = async(req,res)=>{
               categories.parentId = null
             }
             await categories.save();
-            res.redirect('/api/admin/collections');
+            res.redirect('/admin/collections');
         
          } catch (error) {
-          res.redirect('/api/admin/error')
+          res.redirect('/admin/error')
     }
 }
 
@@ -147,16 +147,16 @@ exports.deleteCategory = async(req, res) => {
         if(products.length>0){
           categories.delete=!categories.delete
           await categories.save()
-          res.redirect('/api/admin/collections');
+          res.redirect('/admin/collections');
         }else{
           const delcategory = await Category.findByIdAndDelete({_id:id});
-          res.redirect('/api/admin/collections');
+          res.redirect('/admin/collections');
         }
       }else{
-        res.redirect('/api/admin/error')
+        res.redirect('/admin/error')
       }
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
   }
 exports.deleteMainCategory = async(req, res) => {
@@ -177,12 +177,12 @@ exports.deleteMainCategory = async(req, res) => {
       if(sub.length==0){
         categories.delete=!categories.delete
         await categories.save()
-        res.redirect('/api/admin/collections');
+        res.redirect('/admin/collections');
       }else{
-        res.redirect('/api/admin/collections');
+        res.redirect('/admin/collections');
       }
     } catch (error) {
-      res.redirect('/api/admin/error')
+      res.redirect('/admin/error')
     }
   }
   
@@ -195,9 +195,9 @@ exports.deleteMainCategory = async(req, res) => {
 //       if (!categories) {
 //         return res.status(404).send("Category not found");
 //       }
-//       res.redirect('/api/admin/collections');
+//       res.redirect('/admin/collections');
 //     } catch (error) {
-//       res.redirect('/api/admin/error')
+//       res.redirect('/admin/error')
 //     }
 //   }
   

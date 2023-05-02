@@ -17,7 +17,7 @@ exports.listProducts = async (req, res) => {
     const products = product.reverse()
     res.render('listProducts', { data: products, categories: categoryList })
   } catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
 
@@ -47,9 +47,9 @@ exports.createProducts = async (req, res) => {
 
   try {
     const savedProduct = await product.save()
-    res.status(201).redirect('/api/admin/products')
+    res.status(201).redirect('/admin/products')
   } catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 
 }
@@ -67,7 +67,7 @@ exports.editProducts = async (req, res) => {
     }
   }
   catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
 
@@ -78,9 +78,9 @@ exports.deleteProduct = async (req, res) => {
     if (!product) {
       return res.status(404).send("Product not found");
     }
-    res.redirect('/api/admin/products');
+    res.redirect('/admin/products');
   } catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
 exports.updateImage = async (req, res) => {
@@ -137,11 +137,11 @@ exports.updateProduct = async (req, res) => {
     products.quantity = req.body.quantity;
 
     await products.save();
-    res.redirect('/api/admin/products');
+    res.redirect('/admin/products');
 
 
   } catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
 
   }
 
@@ -163,7 +163,7 @@ exports.loadPorductAdd = (req, res) => {
         res.status(400).json({ error });
       });
   } catch (error) {
-    res.redirect('/api/admin/error')
+    res.redirect('/admin/error')
   }
 }
 

@@ -51,7 +51,7 @@ exports.updateStatus = async (req, res) => {
                 }
             }
         }
-        res.redirect("/api/admin/orders")
+        res.redirect("/admin/orders")
     } catch (error) {
 
     }
@@ -238,7 +238,7 @@ exports.cancelOrder = async (req, res) => {
 
 
         }
-        res.redirect("/api/profile")
+        res.redirect("/profile")
     } catch (error) {
         console.log(error.message);
     }
@@ -287,7 +287,7 @@ exports.retunOrder = async (req, res) => {
             }
             userData = await User.updateOne({ _id: req.session.user_id }, { $set: { wallet: walletData + amt } })
         }
-        res.redirect("/api/profile")
+        res.redirect("/profile")
     } catch (error) {
         console.log(error.message);
     }

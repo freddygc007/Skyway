@@ -84,9 +84,9 @@ exports.cartLoad = async (req, res) => {
           setTimeout(() => {
             userData.save().then(() => {
               if (addedfromproductlist) {
-                res.redirect('/api/shop');
+                res.redirect('/shop');
               } else if (addedfromproductdetails) {
-                res.redirect(`/api/viewProduct?id=${productId}`);
+                res.redirect(`/viewProduct?id=${productId}`);
               }
             });
           }, 0)
@@ -106,7 +106,7 @@ exports.cartLoad = async (req, res) => {
       const productId = req.query.productid;
       const userData = await User.findById(req.session.user_id);
       userData.removefromcart(productId);
-      res.redirect("/api/cart");
+      res.redirect("/cart");
     } catch (error) {
       console.log(error);
     }

@@ -10,7 +10,7 @@ exports.loadWishlist = async (req, res) => {
             res.render('wishlist', { loggedIn: req.session.userLogged, userData:req.session.name, wishlistProducts: completeUser.wishlist })
 
         } else {
-            res.redirect('/api/signin')
+            res.redirect('/signin')
         }
     } catch (error) {
         console.log(error.message);
@@ -26,9 +26,9 @@ exports.addWishlist = async (req, res) => {
         const userData = await User.findById({ _id: req.session.user_id })
         const productData = await products.findById({ _id: productId })
         userData.addToWishlist(productData)
-        res.redirect('/api/shop')
+        res.redirect('/shop')
     } else {
-        res.redirect('/api/signin')
+        res.redirect('/signin')
     }
 }
 
@@ -59,10 +59,10 @@ exports.addToCartremovefromwishlist = async (req, res) => {
                 res.send(html);
               }else{
             userDatas.addToCart(productData)
-            res.redirect('/api/wishlist')
+            res.redirect('/wishlist')
         }
         } else {
-            res.redirect('/api/signin')
+            res.redirect('/signin')
         }
     } catch (error) {
         console.log(error.message)
@@ -74,5 +74,5 @@ exports.deleteWishlist = async (req, res) => {
     userSession = req.session.user_id
     const userData = await User.findById({ _id: req.session.user_id })
     userData.removefromWishlist(productId)
-    res.redirect('/api/wishlist')
+    res.redirect('/wishlist')
 }
