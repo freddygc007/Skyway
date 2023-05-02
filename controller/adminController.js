@@ -44,7 +44,7 @@ exports.adminSignIn= async(req,res)=>{
 exports.loadAdminLogin= async(req,res)=>{
     try {
         if(req.session.userLogged){
-            res.redirect("/admin/dashboard")
+            res.redirect("/admin/")
         }else{
             res.render('adminSignin')
         }
@@ -100,6 +100,7 @@ exports.loadDashboard = async (req, res) => {
      }
     const userData = await User.findById({ _id: req.session.admin_id });
     const recorders = await orders.find({})
+    console.log(recorders[1]._id);
     const users=await User.find({})
     res.render("dashboard", { admin: userData, key1, key2, pds, qty, sales,totalRevenue,users,recorders});
   } catch (error) {
