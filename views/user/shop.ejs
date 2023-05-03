@@ -129,7 +129,7 @@
 								<%if(product[i].quantity==0){%>
 									<div class="col-lg-4 col-md-6">
 										<div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center; min-height: 370px;">
-											<img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="/uploads/<%= product[i].productPictures[0].img %>" alt="">
+											<img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="<%= product[i].productPictures[0].img %>" alt="">
 											<div class="product-details">
 												<h6 style="display: inline-block;"><%=product[i].name%></h6>
 												<div class="price">
