@@ -2,21 +2,59 @@ const Product = require('../model/product')
 const slugify = require('slugify')
 const Category = require('../model/category');
 const User = require('../model/user')
-const fs = require('fs')
 const path = require('path');
 const mongoose = require('mongoose');
+const fs = require('fs')
+const { createReadStream } = require('fs')
+
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
+
+// AWS Upload start
+
+// const { S3Client,PutObjectCommand} = require("@aws-sdk/client-s3");
+const env = require('dotenv');
+const crypto = require('crypto')
+
+env.config();
+
+const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
+
+const bucketName = process.env.BUCKET_NAME
+const bucketRegion = process.env.BUCKET_REGION
+const accessKey = process.env.ACCESS_KEY
+const secretAccessKey = process.env.SECRET_ACCESS_KEY
+
+const S3 = new S3Client({
+  credentials: {
+    accessKeyId: accessKey,
+    secretAccessKey: secretAccessKey,
+  },
+  region: bucketRegion
+})
 
 
+// AWS Upload Ends
 
 
 
 exports.listProducts = async (req, res) => {
   try {
     const product = await Product.find({});
+    for(prod of product){
+      const getObjectParams={
+        Bucket:bucketName,
+        Key:prod.productPictures[0].img,
+      }
+    const command = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+    prod.productPictures[0]=url
+    }
     const categoryList = await Category.find({});
     const products = product.reverse()
     res.render('listProducts', { data: products, categories: categoryList })
   } catch (error) {
+    console.log(error);
     res.redirect('/admin/error')
   }
 }
@@ -24,11 +62,29 @@ exports.listProducts = async (req, res) => {
 
 exports.createProducts = async (req, res) => {
   let productPictures = []
+  // if (req.files.length > 0) {
+  //   productPictures = req.files.map(file => {
+  //     return { img: file.filename }
+  //   })
+  // }
   if (req.files.length > 0) {
-    productPictures = req.files.map(file => {
-      return { img: file.filename }
-    })
+    for (var i = 0; i < req.files.length; i++) {
+      var file = req.files[i];
+      const filename = randomImageName()
+      productPictures.push({ img: filename });
+      console.log(file);
+      const params = {
+        Bucket: bucketName,
+        Key: filename,
+        Body: file.buffer,
+        ContentType: file.minetype,
+      }
+      const command = new PutObjectCommand(params)
+      await S3.send(command)
+      console.log('send');
+    }
   }
+  console.log(productPictures);
   const {
     name, price, description, category, quantity
   } = req.body
@@ -49,6 +105,7 @@ exports.createProducts = async (req, res) => {
     const savedProduct = await product.save()
     res.status(201).redirect('/admin/products')
   } catch (error) {
+    console.log(error);
     res.redirect('/admin/error')
   }
 
@@ -72,7 +129,7 @@ exports.editProducts = async (req, res) => {
 }
 
 exports.deleteProduct = async (req, res) => {
-  const id = req.query.id||`${req.params.id}`;
+  const id = req.query.id || `${req.params.id}`;
   try {
     const product = await Product.findByIdAndDelete({ _id: id });
     if (!product) {
@@ -200,10 +257,10 @@ exports.loadShop = async (req, res) => {
     }
     if (sort == 0) {
       productData = await Product.find({ $and: [{ category: arr }, { $or: [{ name: { $regex: '' + search + ".*" } }] }] }).sort({ $natural: -1 })
-      
+
       var zeroQuantityProducts = productData.filter(product => product.quantity === 0);
       var nonZeroQuantityProducts = productData.filter(product => product.quantity !== 0);
-      productData =[...nonZeroQuantityProducts,...zeroQuantityProducts]
+      productData = [...nonZeroQuantityProducts, ...zeroQuantityProducts]
 
       console.log(productData);
       pageCount = Math.floor(productData.length / limit)
@@ -215,15 +272,15 @@ exports.loadShop = async (req, res) => {
 
       zeroQuantityProducts = productData.filter(product => product.quantity === 0);
       nonZeroQuantityProducts = productData.filter(product => product.quantity !== 0);
-      productData =[...nonZeroQuantityProducts,...zeroQuantityProducts]
-      
+      productData = [...nonZeroQuantityProducts, ...zeroQuantityProducts]
+
     } else {
       productData = await Product.find({ $and: [{ category: arr }, { $or: [{ name: { $regex: '' + search + ".*" } }] }] }).sort({ price: sort })
 
       zeroQuantityProducts = productData.filter(product => product.quantity === 0);
       nonZeroQuantityProducts = productData.filter(product => product.quantity !== 0);
-      productData =[...nonZeroQuantityProducts,...zeroQuantityProducts]
-      
+      productData = [...nonZeroQuantityProducts, ...zeroQuantityProducts]
+
       pageCount = Math.floor(productData.length / limit)
       if (productData.length % limit > 0) {
         pageCount += 1
@@ -233,8 +290,8 @@ exports.loadShop = async (req, res) => {
 
       zeroQuantityProducts = productData.filter(product => product.quantity === 0);
       nonZeroQuantityProducts = productData.filter(product => product.quantity !== 0);
-      productData =[...nonZeroQuantityProducts,...zeroQuantityProducts]
-      
+      productData = [...nonZeroQuantityProducts, ...zeroQuantityProducts]
+
     }
     console.log(productData.length + ' results found');
     if (req.session.user) { session = req.session.user } else session = false
@@ -256,7 +313,7 @@ exports.loadProductDetails = async (req, res) => {
   const product = await Product.findById(id);
   const catid = product.category;
   const category = await Category.findById(catid)
-  const allproduct=await Product.find();
-  res.status(200).render('productDetails', { userData: req.session.name, loggedIn: req.session.userLogged,allproduct:allproduct, product: product, category: category })
+  const allproduct = await Product.find();
+  res.status(200).render('productDetails', { userData: req.session.name, loggedIn: req.session.userLogged, allproduct: allproduct, product: product, category: category })
 }
 
