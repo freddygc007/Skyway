@@ -91,7 +91,7 @@
 								<%if(product[i].quantity>0){%>
 									<div class="col-lg-4 col-md-6">
 										<div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center;">
-											<img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="/uploads/<%= product[i].productPictures[0].img %>" alt="">
+											<img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="<%= product[i].productPictures[0].img %>" alt="">
 											<div class="product-details">
 												<h6 style="display: inline-block;"><%=product[i].name%></h6>
 												<div class="price">
@@ -190,7 +190,7 @@
 						<%for(let i=0;i<6;i++){%>
 							<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 								<div class="single-related-product d-flex">
-									<a href="#"><img style="width: 70px;height: 70px;" src="/uploads/<%= product[i].productPictures[0].img %>" alt=" product[i].name"></a>
+									<a href="#"><img style="width: 70px;height: 70px;" src="<%= product[i].productPictures[0].img %>" alt=" product[i].name"></a>
 									<div class="desc">
 										<a href="#" class="title"><%=product[i].name%></a>
 										<div class="price">
@@ -416,7 +416,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     return `
         <div class="col-lg-4 col-md-6">
             <div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center;">
-                <img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="/uploads/${productItem.productPictures[0].img}" alt="">
+                <img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="${productItem.productPictures[0].img}" alt="">
                 <div class="product-details">
                     <h6 style="display: inline-block;">${productItem.name}</h6>
                     <div class="price">

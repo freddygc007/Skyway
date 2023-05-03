@@ -28,8 +28,8 @@
 					<div class="s_Product_carousel">
 						<% product.productPictures.forEach(function(productPicture) { %>
 							<div class="single-prd-item">
-								<a href="/uploads/<%= productPicture.img %>" class="MagicZoom"><img class="img-fluid"
-										src="/uploads/<%= productPicture.img %>" alt="sdfadf"></a>
+								<a href="<%= productPicture.img %>" class="MagicZoom"><img class="img-fluid"
+										src="<%= productPicture.img %>" alt="sdfadf"></a>
 
 							</div>
 							<% }) %>
@@ -393,7 +393,7 @@
 						<%for(let i=0;i<6;i++){%>
 							<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 								<div class="single-related-product d-flex">
-									<a href="#"><img style="width: 70px;height: 70px;" src="/uploads/<%= allproduct[i].productPictures[0].img %>" alt=""></a>
+									<a href="#"><img style="width: 70px;height: 70px;" src="<%= allproduct[i].productPictures[0].img %>" alt=""></a>
 									<div class="desc">
 										<a href="#" class="title"><%=allproduct[i].name%></a>
 										<div class="price">

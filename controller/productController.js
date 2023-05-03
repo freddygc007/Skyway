@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const fs = require('fs')
 const { createReadStream } = require('fs')
 
+
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
 
@@ -14,7 +15,7 @@ const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/clien
 
 // const { S3Client,PutObjectCommand} = require("@aws-sdk/client-s3");
 const env = require('dotenv');
-const crypto = require('crypto')
+const crypto = require('crypto');
 
 env.config();
 
@@ -42,16 +43,22 @@ exports.listProducts = async (req, res) => {
   try {
     const product = await Product.find({});
     for(prod of product){
-      const getObjectParams={
-        Bucket:bucketName,
-        Key:prod.productPictures[0].img,
+      const images=prod.productPictures
+      console.log(images);
+      for(items of images){
+        const getObjectParams={
+          Bucket:bucketName,
+          Key:items.img,
       }
-    const command = new GetObjectCommand(getObjectParams);
-    const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-    prod.productPictures[0]=url
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+      items.img=url
+      console.log(items.img);
+      }
     }
     const categoryList = await Category.find({});
     const products = product.reverse()
+    console.log(products.productPictures);
     res.render('listProducts', { data: products, categories: categoryList })
   } catch (error) {
     console.log(error);
@@ -115,6 +122,7 @@ exports.editProducts = async (req, res) => {
   try {
     const id = req.query.id
     const productone = await Product.findById(id);
+    
     //console.log(productone)
     const categories = await Category.find();
     if (productone) {
@@ -294,6 +302,24 @@ exports.loadShop = async (req, res) => {
 
     }
     console.log(productData.length + ' results found');
+    
+
+    for(prod of productData){
+      const images=prod.productPictures
+      console.log(images);
+      for(items of images){
+        const getObjectParams={
+          Bucket:bucketName,
+          Key:items.img,
+      }
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+      items.img=url
+      console.log(items.img);
+      }
+    }
+
+
     if (req.session.user) { session = req.session.user } else session = false
     if (pageCount == 0) { pageCount = 1 }
     if (ajax) {
@@ -311,9 +337,34 @@ exports.loadShop = async (req, res) => {
 exports.loadProductDetails = async (req, res) => {
   const id = req.query.id;
   const product = await Product.findById(id);
+  
+  const proimages=product.productPictures
+    for(items of proimages){
+      const getObjectParams={
+        Bucket:bucketName,
+        Key:items.img,
+    }
+    const command = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+    items.img=url
+    }
+
   const catid = product.category;
   const category = await Category.findById(catid)
   const allproduct = await Product.find();
+  for(prod of allproduct){
+    const images=prod.productPictures
+    for(items of images){
+      const getObjectParams={
+        Bucket:bucketName,
+        Key:items.img,
+    }
+    const command = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+    items.img=url
+    }
+  }
+
   res.status(200).render('productDetails', { userData: req.session.name, loggedIn: req.session.userLogged, allproduct: allproduct, product: product, category: category })
 }
 
