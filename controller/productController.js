@@ -9,7 +9,7 @@ const { createReadStream } = require('fs')
 
 
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { S3Client, GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 
 // AWS Upload start
 
@@ -42,18 +42,18 @@ const S3 = new S3Client({
 exports.listProducts = async (req, res) => {
   try {
     const product = await Product.find({});
-    for(prod of product){
-      const images=prod.productPictures
+    for (prod of product) {
+      const images = prod.productPictures
       console.log(images);
-      for(items of images){
-        const getObjectParams={
-          Bucket:bucketName,
-          Key:items.img,
-      }
-      const command = new GetObjectCommand(getObjectParams);
-      const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-      items.img=url
-      console.log(items.img);
+      for (items of images) {
+        const getObjectParams = {
+          Bucket: bucketName,
+          Key: items.img,
+        }
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+        items.img = url
+        console.log(items.img);
       }
     }
     const categoryList = await Category.find({});
@@ -122,7 +122,17 @@ exports.editProducts = async (req, res) => {
   try {
     const id = req.query.id
     const productone = await Product.findById(id);
-    
+
+    const proimages = productone.productPictures
+  for (items of proimages) {
+    const getObjectParams = {
+      Bucket: bucketName,
+      Key: items.img,
+    }
+    const command = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+    items.img = url
+  }
     //console.log(productone)
     const categories = await Category.find();
     if (productone) {
@@ -136,69 +146,88 @@ exports.editProducts = async (req, res) => {
   }
 }
 
+
 exports.deleteProduct = async (req, res) => {
   const id = req.query.id || `${req.params.id}`;
   try {
+    const productData = await Product.findById({ _id: id });
+    images = productData.productPictures;
+    console.log(images);
+
+    for (img of images) {
+      const deleteParams = {
+        Bucket: bucketName,
+        Key: img.img,
+      }
+      const command = new DeleteObjectCommand(deleteParams)
+      await S3.send(command)
+    }
     const product = await Product.findByIdAndDelete({ _id: id });
     if (!product) {
       return res.status(404).send("Product not found");
     }
     res.redirect('/admin/products');
   } catch (error) {
+    console.log(error);
     res.redirect('/admin/error')
   }
 }
 exports.updateImage = async (req, res) => {
   try {
     let { pId, img } = req.body
+    const prod = Product.findOne({ _id: pId })
+    const splitStr = img.substr(52, 64);
+    images = splitStr;
+      const deleteParams = {
+        Bucket: bucketName,
+        Key: images,
+      }
+      const command = new DeleteObjectCommand(deleteParams)
+      await S3.send(command)
     const data = await Product.updateOne(
       { _id: pId },
-      { $pull: { productPictures: { img: img } } }
+      { $pull: { productPictures: { img: splitStr } } }
     )
-    const filePath = path.join(path.dirname(__dirname), `./public/uploads/${img}`)
-    if (!fs.existsSync(filePath)) {
-      console.error('Error: /uploads directory does not exist');
-      return;
-    }
-
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        if (err.code === 'ENOENT') {
-          console.log(`File ${filePath} does not exist`);
-        } else {
-          console.error(`Error deleting file ${filePath}: ${err}`);
-        }
-        return;
-      }
-
-      console.log(`File ${filePath} deleted successfully`);
-    });
-
-    console.log('Old file deleted successfully');
     const productData = Product.findOne({ _id: pId })
-    console.log(productData);
     res.send({ newImage: productData.productPictures.img });
   } catch (error) {
     console.log(error.message);
   }
 };
+
+
 exports.updateProduct = async (req, res) => {
   try {
     const id = req.body.id
     const products = await Product.findById({ _id: id });
     let productPictures = products.productPictures
+    const newPictures = [];
     if (req.files.length > 0) {
-      const newPictures = req.files.map(file => {
-        return { img: file.filename }
-      });
-      productPictures = [...productPictures, ...newPictures];
+      // const newPictures = req.files.map(file => {
+      //   return { img: file.filename }
+      // });
+      for (var i = 0; i < req.files.length; i++) {
+        var file = req.files[i];
+        const filename = randomImageName()
+        newPictures.push({ img: filename });
+        const params = {
+          Bucket: bucketName,
+          Key: filename,
+          Body: file.buffer,
+          ContentType: file.minetype,
+        }
+        const command = new PutObjectCommand(params)
+        await S3.send(command)
+        console.log('send');
+      }
     }
+    productPictures = [...productPictures, ...newPictures];
 
     products.name = req.body.name;
     products.description = req.body.description;
     products.price = req.body.price;
     products.productPictures = productPictures,
-      products.category = req.body.category;
+    products.category = req.body.category;
     products.quantity = req.body.quantity;
 
     await products.save();
@@ -206,6 +235,7 @@ exports.updateProduct = async (req, res) => {
 
 
   } catch (error) {
+    console.log(error);
     res.redirect('/admin/error')
 
   }
@@ -302,20 +332,20 @@ exports.loadShop = async (req, res) => {
 
     }
     console.log(productData.length + ' results found');
-    
 
-    for(prod of productData){
-      const images=prod.productPictures
+
+    for (prod of productData) {
+      const images = prod.productPictures
       console.log(images);
-      for(items of images){
-        const getObjectParams={
-          Bucket:bucketName,
-          Key:items.img,
-      }
-      const command = new GetObjectCommand(getObjectParams);
-      const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-      items.img=url
-      console.log(items.img);
+      for (items of images) {
+        const getObjectParams = {
+          Bucket: bucketName,
+          Key: items.img,
+        }
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+        items.img = url
+        console.log(items.img);
       }
     }
 
@@ -337,31 +367,31 @@ exports.loadShop = async (req, res) => {
 exports.loadProductDetails = async (req, res) => {
   const id = req.query.id;
   const product = await Product.findById(id);
-  
-  const proimages=product.productPictures
-    for(items of proimages){
-      const getObjectParams={
-        Bucket:bucketName,
-        Key:items.img,
+
+  const proimages = product.productPictures
+  for (items of proimages) {
+    const getObjectParams = {
+      Bucket: bucketName,
+      Key: items.img,
     }
     const command = new GetObjectCommand(getObjectParams);
     const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-    items.img=url
-    }
+    items.img = url
+  }
 
   const catid = product.category;
   const category = await Category.findById(catid)
   const allproduct = await Product.find();
-  for(prod of allproduct){
-    const images=prod.productPictures
-    for(items of images){
-      const getObjectParams={
-        Bucket:bucketName,
-        Key:items.img,
-    }
-    const command = new GetObjectCommand(getObjectParams);
-    const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
-    items.img=url
+  for (prod of allproduct) {
+    const images = prod.productPictures
+    for (items of images) {
+      const getObjectParams = {
+        Bucket: bucketName,
+        Key: items.img,
+      }
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(S3, command, { expiresIn: 3600 });
+      items.img = url
     }
   }
 

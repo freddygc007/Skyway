@@ -1,6 +1,9 @@
 <%- include ('./header.ejs') %>
-	<!-- End Header Area -->
-
+<style>
+	*{
+		box-sizing: border-box;
+	}
+</style>
 	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
@@ -90,7 +93,7 @@
 							<%for(let i=0;i<product.length;i++){%>
 								<%if(product[i].quantity>0){%>
 									<div class="col-lg-4 col-md-6">
-										<div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center;">
+										<div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center;min-height: 400px;padding: .25rem;">
 											<img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="<%= product[i].productPictures[0].img %>" alt="">
 											<div class="product-details">
 												<h6 style="display: inline-block;"><%=product[i].name%></h6>
@@ -125,7 +128,7 @@
 							<%for(let i=0;i<product.length;i++){%>
 								<%if(product[i].quantity==0){%>
 									<div class="col-lg-4 col-md-6">
-										<div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center;">
+										<div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center; min-height: 370px;">
 											<img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="/uploads/<%= product[i].productPictures[0].img %>" alt="">
 											<div class="product-details">
 												<h6 style="display: inline-block;"><%=product[i].name%></h6>
@@ -415,7 +418,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 `${product.map((productItem) => {
     return `
         <div class="col-lg-4 col-md-6">
-            <div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center;">
+            <div class="single-product" style="border: 1px solid; border-radius: 10px;text-align: center;display: flex; flex-direction: column; align-items: center;min-height: 400px;padding: .25rem;">
                 <img class="img-fluid" style="max-height: 200px;max-width: 200px;" src="${productItem.productPictures[0].img}" alt="">
                 <div class="product-details">
                     <h6 style="display: inline-block;">${productItem.name}</h6>
