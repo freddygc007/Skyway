@@ -115,6 +115,7 @@ exports.editModifyBanner = async (req, res) => {
         },
       }
       );
+      console.log('dhti');
       res.redirect("/admin/banner")
     } catch (error) {
       console.log(error.message);
