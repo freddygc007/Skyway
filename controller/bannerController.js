@@ -73,8 +73,10 @@ exports.blockBanner = async (req, res) => {
         disBanner.is_active=false;
         const upBanner = await disBanner.save();
         res.redirect('/admin/banner');
+
       }else{
-        res.redirect('/admin/banner');
+        res.render("banner", { banner: allBanner,message:"Please disable the active banner" });
+
       }
     } else if(flag==0){
       console.log('flag0');
@@ -85,11 +87,13 @@ exports.blockBanner = async (req, res) => {
       if (upBanner) {
         res.redirect('/admin/banner');
       } else {
+        console.log('difdf');
         res.redirect('/admin/error')
       }
     }
 
   } catch (error) {
+    console.log(error);
     res.redirect('/admin/error')
   }
 }
